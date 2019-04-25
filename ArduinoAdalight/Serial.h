@@ -26,8 +26,8 @@ namespace Asemco
 		int connect();
 		void disconnect();
 
-		int readSerialPort(byte *buffer, unsigned int buf_size);
-		bool writeSerialPort(byte *buffer, unsigned int buf_size);
+		int readSerialPort(byte *buffer, size_t buf_size);
+		bool writeSerialPort(byte *buffer, size_t buf_size);
 		bool isConnected();
 	};
 }

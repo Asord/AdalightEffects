@@ -1,22 +1,13 @@
 #pragma once
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
-
-#include "../defines.h"
+#include <math.h>
 
 
 namespace Asemco
 {
-
 	#define chance(x) rand() % 100 < x
 
-	struct CBytes
-	{
-		byte color[3];
-	};
-
-	CBytes HSVtoRGB(float, float, float);
 	float f3min(float, float, float);
 	float f3max(float, float, float);
 

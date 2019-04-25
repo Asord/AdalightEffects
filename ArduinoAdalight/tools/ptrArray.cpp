@@ -3,37 +3,37 @@
 namespace Asemco
 {
 
-	ptrArray::ptrArray(size_t max)
+	ptrArray::ptrArray(size_t maxSize)
 	{
-		this->lst = new void*[max];
+		this->pointerList = new void*[maxSize];
 
-		for (size_t i = 0; i < max; ++i)
-			this->lst[i] = nullptr;
+		for (size_t i = 0; i < maxSize; ++i)
+			this->pointerList[i] = nullptr;
 
-		this->max = max;
+		this->maxPointers = maxSize;
 	}
 
 	ptrArray::~ptrArray()
 	{
-		for (size_t i = 0; i < this->cnt; ++i)
+		for (size_t i = 0; i < this->nbPointers; ++i)
 		{
-			delete this->lst[i];
-			this->lst[i] = nullptr;
+			delete this->pointerList[i];
+			this->pointerList[i] = nullptr;
 		}
 
-		delete[] this->lst;
+		delete[] this->pointerList;
 	}
 
 	int ptrArray::append(void * ptr)
 	{
-		if (this->cnt < this->max)
+		if (this->nbPointers < this->maxPointers)
 		{
-			if (this->lst[this->cnt] == nullptr)
+			if (this->pointerList[this->nbPointers] == nullptr)
 			{
-				this->lst[this->cnt] = ptr;
-				this->cnt += 1;
+				this->pointerList[this->nbPointers] = ptr;
+				this->nbPointers += 1;
 
-				return this->cnt - 1;
+				return this->nbPointers - 1;
 			}
 			return PTR_NONULL;
 		}
@@ -43,31 +43,31 @@ namespace Asemco
 
 	void ptrArray::remove(size_t idx)
 	{
-		if (idx < this->cnt)
+		if (idx < this->nbPointers)
 		{
-			delete this->lst[idx];
+			delete this->pointerList[idx];
 
-			this->cnt -= 1;
-			if (this->cnt > 0)
-				this->lst[idx] = this->lst[this->cnt];
+			this->nbPointers -= 1;
+			if (this->nbPointers > 0)
+				this->pointerList[idx] = this->pointerList[this->nbPointers];
 
-			this->lst[this->cnt] = nullptr;
+			this->pointerList[this->nbPointers] = nullptr;
 
 		}
 
-		if (this->cnt == 1)
+		if (this->nbPointers == 1)
 			int a = 0;
 	}
 
 	size_t ptrArray::size()
 	{
-		return this->cnt;
+		return this->nbPointers;
 	}
 
 	void* ptrArray::operator[](size_t idx)
 	{
-		if (idx < this->cnt)
-			return this->lst[idx];
+		if (idx < this->nbPointers)
+			return this->pointerList[idx];
 
 		return nullptr;
 	}

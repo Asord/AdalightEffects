@@ -2,6 +2,8 @@
 #include "abstractTemplate.h"
 #include "../tools/ptrArray.h"
 
+typedef unsigned short ushort;
+
 namespace Asemco
 {
 	struct flare_obj

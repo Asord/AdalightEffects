@@ -10,18 +10,18 @@ namespace Asemco
 	class ptrArray
 	{
 	private:
-		void** lst;
-		size_t cnt;
-		size_t max;
+		void** pointerList;
+		size_t nbPointers;
+		size_t maxPointers;
 
 	public:
-		ptrArray(size_t);
+		ptrArray(size_t maxSize);
 		~ptrArray();
 
-		int append(void*);
-		void remove(size_t);
+		int append(void* ptr);
+		void remove(size_t idx);
 
 		size_t size();
-		void* operator[](size_t);
+		void* operator[](size_t idx);
 	};
 }

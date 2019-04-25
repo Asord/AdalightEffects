@@ -1,6 +1,8 @@
 #pragma once
 #include "maths.h"
 
+typedef unsigned char byte;
+
 namespace Asemco
 {
 	struct HSV
@@ -9,6 +11,13 @@ namespace Asemco
 		float S;
 		float V;
 	};
+
+	struct CBytes
+	{
+		byte color[3];
+	};
+
+	CBytes HSVtoRGB(float, float, float);
 
 	class Color
 	{
@@ -21,14 +30,14 @@ namespace Asemco
 		Color();
 		Color(int, int, int);
 		Color(float, float, float);
-		Color(CBytes);
+		Color(CBytes&);
 		Color(int*);
 
 		void fromBytes(char* bytes);
 
-		Color random();
-		Color randomColor();
-		Color zero();
+		Color& random();
+		Color& randomColor();
+		Color& zero();
 
 		void coef(float, float, float);
 

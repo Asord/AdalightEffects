@@ -6,6 +6,8 @@
 
 namespace Asemco
 {
+#define isInstance(Type, ptr) dynamic_cast<Type*>(ptr) != nullptr
+
 	class AbstractTemplate
 	{
 	protected:

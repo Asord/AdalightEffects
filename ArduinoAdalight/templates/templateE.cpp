@@ -20,7 +20,7 @@ namespace Asemco
 			this->framePos = 0;
 		}
 
-		int frameLen = fileData.getFrameLen();
+		size_t frameLen = fileData.getFrameLen();
 
 		char* frame = data + frameLen*this->framePos*sizeof(char);
 
@@ -29,7 +29,7 @@ namespace Asemco
 			frameLen = controller->getNbLeds();
 		}
 
-		for (int i = 0; i < frameLen; ++i)
+		for (size_t i = 0; i < frameLen; ++i)
 		{
 			Color col = colors[frame[i]];
 			CBytes bytes = col.toBytes();

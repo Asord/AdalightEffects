@@ -74,7 +74,7 @@ namespace Asemco
 		}
 	}
 
-	int Serial::readSerialPort(byte *buffer, unsigned int buf_size)
+	int Serial::readSerialPort(byte *buffer, size_t buf_size)
 	{
 		if (!b_connected)
 		{
@@ -105,7 +105,7 @@ namespace Asemco
 		return 0;
 	}
 
-	bool Serial::writeSerialPort(byte *buffer, unsigned int buf_size)
+	bool Serial::writeSerialPort(byte *buffer, size_t buf_size)
 	{
 		if (!b_connected)
 		{

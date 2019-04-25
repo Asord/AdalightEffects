@@ -24,8 +24,9 @@ if(param(X)) \
 
 struct config
 {
+	int n_nbLeds = 29;
+
 	int n_loopCount = 200;
-	int n_startupEffect = 0;
 	int n_sleepms = 50;
 
 	float f_rainbowStaticHueCoef = 1.0f;

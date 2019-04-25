@@ -1,32 +1,36 @@
 #pragma once
 #include "Serial.h"
 
-#define NBLEDS 29
-#define BUFFERSIZE 3*NBLEDS
+typedef unsigned char usize;
+
+constexpr usize NBLEDS = 29;
 
 namespace Asemco
 {
 	class ArduinoController
 	{
 	private:
-		byte y_buffer[6 + BUFFERSIZE] = "Ada";
+		byte* y_buffer;
 		Serial serial;
-		int nbLeds = NBLEDS;
+
+		usize nbLeds;
+		size_t bufferSize;
 
 	public:
 		ArduinoController(char*);
+		ArduinoController(char*, usize);
 		~ArduinoController();
 
 		void setColor(size_t, byte*);
 		void getColor(size_t, byte*);
 
-		bool isBlackAt(size_t);
-
-		void setHeader();
+		size_t getNbLeds() const;
 
 		void moderate(float, float, float);
-		int send();
 		void clear();
-		int getNbLeds();
+		int send();
+
+	private:
+		void setHeader();
 	};
 }

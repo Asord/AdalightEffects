@@ -45,6 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -87,6 +88,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,7 +130,7 @@
     <ClCompile Include="templates\rainbowYipyop.cpp" />
     <ClCompile Include="templates\halo.cpp" />
     <ClCompile Include="templates\templateE.cpp" />
-    <ClCompile Include="tools\argvParser.cpp" />
+    <ClCompile Include="tools\argumentsParser.cpp" />
     <ClCompile Include="tools\color.cpp" />
     <ClCompile Include="tools\maths.cpp" />
     <ClCompile Include="tools\ptrArray.cpp" />
@@ -147,7 +149,7 @@
     <ClInclude Include="templates\rainbowStatic.h" />
     <ClInclude Include="templates\RainbowYipyop.h" />
     <ClInclude Include="templates\templateE.h" />
-    <ClInclude Include="tools\argvParser.h" />
+    <ClInclude Include="tools\argumentsParser.h" />
     <ClInclude Include="tools\color.h" />
     <ClInclude Include="tools\maths.h" />
     <ClInclude Include="tools\ptrArray.h" />

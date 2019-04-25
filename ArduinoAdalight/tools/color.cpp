@@ -2,6 +2,40 @@
 
 namespace Asemco
 {
+	CBytes HSVtoRGB(float h, float s, float v)
+	{
+		float h60 = h / 60.0f;
+		float h60f = (float)floor(h60);
+
+		int hi = (int)h60f % 6;
+
+		float f = h60 - h60f;
+
+		float p = v * (1.0f - s);
+		float q = v * (1.0f - f * s);
+		float t = v * (1.0f - (1.0f - f) * s);
+
+		float r = 0.0f, g = 0.0f, b = 0.0f;
+
+		switch (hi)
+		{
+		case 0: r = v; g = t; b = p; break;
+		case 1: r = q; g = v; b = p; break;
+		case 2: r = p; g = v; b = t; break;
+		case 3: r = p; g = q; b = v; break;
+		case 4: r = t; g = p; b = v; break;
+		case 5: r = v; g = p; b = q; break;
+		}
+
+		CBytes rgb;
+		rgb.color[0] = (byte)(r * 255);
+		rgb.color[1] = (byte)(g * 255);
+		rgb.color[2] = (byte)(b * 255);
+
+		return rgb;
+	}
+
+
 	Color::Color()
 	{
 		this->y_red = 0;
@@ -37,7 +71,7 @@ namespace Asemco
 		this->y_blue = rgb.color[2];
 	}
 
-	Color::Color(CBytes buff)
+	Color::Color(CBytes& buff)
 	{
 		this->y_red = buff.color[0];
 		this->y_green = buff.color[1];
@@ -74,15 +108,16 @@ namespace Asemco
 		this->y_blue = bytes[2];
 	}
 
-	Color Color::random()
+	Color& Color::random()
 	{
 		this->y_red = rand() % 256;
 		this->y_green = rand() % 256;
 		this->y_blue = rand() % 256;
+
 		return *this;
 	}
 
-	Color Color::randomColor()
+	Color& Color::randomColor()
 	{
 		int r = rand() % 36000;
 		float h = (float)r / 100.0f;
@@ -92,14 +127,16 @@ namespace Asemco
 		this->y_red = rgb.color[0];
 		this->y_green = rgb.color[1];
 		this->y_blue = rgb.color[2];
+
 		return *this;
 	}
 
-	Color Color::zero()
+	Color& Color::zero()
 	{
 		this->y_red = 0;
 		this->y_green = 0;
 		this->y_blue = 0;
+
 		return *this;
 	}
 
@@ -191,7 +228,7 @@ namespace Asemco
 
 	Color Color::operator*(float f)
 	{
-		if (0.0f <= f <= 1.0f)
+		if (0.0f <= f && f <= 1.0f)
 		{
 			float r = (float)this->y_red * f;
 			float g = (float)this->y_green * f;
