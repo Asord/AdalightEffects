@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\templates">
+      <UniqueIdentifier>{8beda58d-c240-4ec2-858e-073f5d658cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\templates">
+      <UniqueIdentifier>{f9f0c61a-1994-4881-8117-3ef5e5ff6db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\tools">
+      <UniqueIdentifier>{2e28ffc0-c791-405a-9289-1dd70772e2ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\tools">
+      <UniqueIdentifier>{e8f9c55f-2d2b-4789-9a30-35c9f8d516dd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="templates\rainbowYipyop.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="ArduinoController.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Serial.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="templates\rainbow.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="templates\flare.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="templates\rainbowStatic.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\ptrArray.cpp">
+      <Filter>Fichiers sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\color.cpp">
+      <Filter>Fichiers sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\maths.cpp">
+      <Filter>Fichiers sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\templateReader.cpp">
+      <Filter>Fichiers sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="templates\templateE.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="templates\halo.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\argvParser.cpp">
+      <Filter>Fichiers sources\tools</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="templates\abstractTemplate.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\Rainbow.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\RainbowYipyop.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="defines.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Serial.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ArduinoController.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="templates.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\flare.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\rainbowStatic.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\argvParser.h">
+      <Filter>Fichiers d%27en-tête\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\ptrArray.h">
+      <Filter>Fichiers d%27en-tête\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\color.h">
+      <Filter>Fichiers d%27en-tête\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\maths.h">
+      <Filter>Fichiers d%27en-tête\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\templateReader.h">
+      <Filter>Fichiers d%27en-tête\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\templateE.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\halo.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\haloEffect.h">
+      <Filter>Fichiers de ressources</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
