@@ -12,8 +12,11 @@ namespace Asemco
 
 	Flare::Flare(ArduinoController* controller, ushort nbFlares) : flares(nbFlares)
 	{
+		this->init(controller);
+
 		this->p_controller = controller;
 		this->nbFlares = nbFlares;
+
 	}
 
 
@@ -30,7 +33,8 @@ namespace Asemco
 			ushort delta = flare->n_delta;
 			Color color = flare->color;
 
-			if (pos - delta < 0 and pos + delta > NBLEDS - 1)
+
+			if (pos - delta < 0 and pos + delta > this->nbLeds - 1)
 				this->flares.remove(i);
 
 			else
@@ -38,8 +42,8 @@ namespace Asemco
 				short pos_0 = (pos - delta > 0) ? pos - delta : 0;
 
 				short pos_1 = pos + delta;
-				if (pos + delta > NBLEDS - 1)
-					pos_1 = 7 + NBLEDS - (pos + delta);
+				if (pos + delta > this->nbLeds - 1)
+					pos_1 = 7 + this->nbLeds - (pos + delta);
 
 				pos_1 = (pos_1 > 0) ? pos_1 : 0;
 
@@ -58,7 +62,7 @@ namespace Asemco
 		{
 			if (chance(10))
 			{
-				ushort pos = 5 + rand() % (NBLEDS - 5);
+				ushort pos = 5 + rand() % (this->nbLeds - 5);
 				Color color = Color();
 				color.randomColor();
 

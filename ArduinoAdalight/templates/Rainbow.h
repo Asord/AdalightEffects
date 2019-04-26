@@ -10,6 +10,8 @@ namespace Asemco
 		float f_hue;
 		int n_dir;
 
+		float* hueBuffer;
+
 	public:
 		Rainbow(ArduinoController*, float, int);
 		void update();

@@ -16,6 +16,6 @@ namespace Asemco
 		void update();
 
 	private:
-		void init();
+		void initEffect();
 	};
 }

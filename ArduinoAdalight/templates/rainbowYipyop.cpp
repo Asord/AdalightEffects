@@ -4,21 +4,22 @@ namespace Asemco
 {
 	RainbowYipyop::RainbowYipyop(ArduinoController* controller)
 	{
-		this->p_controller = controller;
+		this->init(controller);
 
 		this->f_currentHue = 0.0f;
 		this->f_step = 0.0f;
 		this->n_positionHue = 0;
 		this->n_directionHue = 1;
 
-		this->init();
+		this->initEffect();
+
 		this->p_controller->clear();
 	}
 
 
-	void RainbowYipyop::init()
+	void RainbowYipyop::initEffect()
 	{
-		float nbLeds = (float)NBLEDS;
+		float leds = (float)this->nbLeds;
 
 		float hue = this->f_currentHue;
 		float stop;
@@ -29,22 +30,22 @@ namespace Asemco
 
 		if (hue < stop)
 			if (stop - hue > 60)
-				this->f_step = (stop - hue) / nbLeds;
+				this->f_step = (stop - hue) / leds;
 			else
-				this->f_step = (360.0f + (stop - hue)) / nbLeds;
+				this->f_step = (360.0f + (stop - hue)) / leds;
 		else
 			if (hue - stop > 60)
-				this->f_step = (hue - stop) / nbLeds;
+				this->f_step = (hue - stop) / leds;
 			else
-				this->f_step = (360.0f + (hue - stop)) / nbLeds;
+				this->f_step = (360.0f + (hue - stop)) / leds;
 	}
 
 
 	void RainbowYipyop::update()
 	{
-		if (this->n_positionHue == NBLEDS || this->n_positionHue == -1)
+		if (this->n_positionHue == this->nbLeds || this->n_positionHue == -1)
 		{
-			this->init();
+			this->initEffect();
 			this->n_directionHue *= -1;
 		}
 		else

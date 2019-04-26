@@ -5,6 +5,8 @@ namespace Asemco
 
 	Halo::Halo(ArduinoController * controller, const Color & color, size_t startPos)
 	{
+		this->init(controller);
+
 		this->effectPos = startPos < saturationSize ? startPos : 0;
 		this->controller = controller;
 		this->effectColor = color;
@@ -17,7 +19,7 @@ namespace Asemco
 		if (this->effectPos == saturationSize)
 			this->effectPos = 0;
 
-		for (int i = 0; i < NBLEDS; ++i)
+		for (int i = 0; i < this->nbLeds; ++i)
 		{
 			int currentPos = (this->effectPos + i) % saturationSize;
 			float scale = Scale(effectRange, saturationData[currentPos]);

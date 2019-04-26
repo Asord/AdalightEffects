@@ -3,7 +3,7 @@
 
 typedef unsigned char usize;
 
-constexpr usize NBLEDS = 29;
+constexpr usize NBLEDS = 46;
 
 namespace Asemco
 {

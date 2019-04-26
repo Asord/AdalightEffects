@@ -12,8 +12,15 @@ namespace Asemco
 	{
 	protected:
 		ArduinoController* p_controller;
+		int nbLeds;
 
 	public:
 		virtual void update() = 0;
+
+		void init(ArduinoController* controller) 
+		{ 
+			this->p_controller = controller;
+			this->nbLeds = this->p_controller->getNbLeds();
+		}
 	};
 }

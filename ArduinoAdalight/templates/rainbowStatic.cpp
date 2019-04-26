@@ -4,7 +4,8 @@ namespace Asemco
 {
 	RainbowStatic::RainbowStatic(ArduinoController* controller, float step)
 	{
-		this->p_controller = controller;
+		this->init(controller);
+
 		this->f_step = step;
 
 		this->f_hue = 0.0f;
@@ -14,7 +15,7 @@ namespace Asemco
 	{
 		this->p_controller->clear();
 
-		for (int i = 0; i < NBLEDS; ++i)
+		for (int i = 0; i < this->nbLeds; ++i)
 		{
 			Color col(this->f_hue, 1.0, 1.0);
 			CBytes bytes = col.toBytes();
