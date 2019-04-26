@@ -18,6 +18,7 @@ namespace Asemco {
 			singleParamContinue("-yipyop", c.b_doRainbowYipYop);
 			singleParamContinue("-rainbowstatic", c.b_doRainbowStatic);
 			singleParamContinue("-flares", c.b_doFlares);
+			singleParamContinue("-clock", c.b_doClock);
 
 			twoParamConvert("-steps", c.n_loopCount, std::stoi);
 			twoParamConvert("-sleep", c.n_sleepms, std::stoi);

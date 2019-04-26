@@ -124,6 +124,7 @@
     <ClCompile Include="ArduinoController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Serial.cpp" />
+    <ClCompile Include="templates\clock.cpp" />
     <ClCompile Include="templates\flare.cpp" />
     <ClCompile Include="templates\rainbow.cpp" />
     <ClCompile Include="templates\rainbowStatic.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="templates\abstractTemplate.h" />
     <ClInclude Include="templates\flare.h" />
     <ClInclude Include="templates\halo.h" />
+    <ClInclude Include="templates\clock.h" />
     <ClInclude Include="templates\Rainbow.h" />
     <ClInclude Include="templates\rainbowStatic.h" />
     <ClInclude Include="templates\RainbowYipyop.h" />

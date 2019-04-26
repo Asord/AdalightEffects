@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interface-TV-Controller", "Interface-TV-Controller\Interface-TV-Controller.vcxproj", "{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoAdalight", "ArduinoAdalight\ArduinoAdalight.vcxproj", "{30550739-B0B3-4FBE-B8B3-0C32F79D6AF5}"
 EndProject
 Global
@@ -15,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Debug|x64.ActiveCfg = Debug|x64
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Debug|x64.Build.0 = Debug|x64
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Debug|x86.ActiveCfg = Debug|Win32
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Debug|x86.Build.0 = Debug|Win32
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Release|x64.ActiveCfg = Release|x64
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Release|x64.Build.0 = Release|x64
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Release|x86.ActiveCfg = Release|Win32
-		{8D26D6FC-79E2-4F9F-A524-71BC3E316C7D}.Release|x86.Build.0 = Release|Win32
 		{30550739-B0B3-4FBE-B8B3-0C32F79D6AF5}.Debug|x64.ActiveCfg = Debug|x64
 		{30550739-B0B3-4FBE-B8B3-0C32F79D6AF5}.Debug|x64.Build.0 = Debug|x64
 		{30550739-B0B3-4FBE-B8B3-0C32F79D6AF5}.Debug|x86.ActiveCfg = Debug|Win32

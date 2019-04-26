@@ -47,6 +47,9 @@ int main(int argc, char* argv[])
 	if (c.b_doHalo)
 		effectsArray.append(new Halo(&controller, Color(c.n_haloColor), c.n_haloStartPos));
 
+	if(c.b_doClock)
+		effectsArray.append(new Clock(&controller));
+
 	if (effectsArray.size() == 0)
 	{
 		exit(0);

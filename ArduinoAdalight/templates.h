@@ -5,3 +5,4 @@
 #include "templates/rainbowStatic.h"
 #include "templates/templateE.h"
 #include "templates/halo.h"
+#include "templates/clock.h"
