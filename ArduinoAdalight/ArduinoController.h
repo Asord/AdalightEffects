@@ -3,7 +3,8 @@
 
 typedef unsigned char usize;
 
-constexpr usize NBLEDS = 46;
+constexpr usize NBLEDS = 28;
+#define ERR_OUTOFRANGE 0x20;
 
 namespace Asemco
 {

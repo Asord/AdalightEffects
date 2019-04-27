@@ -26,18 +26,20 @@ namespace Asemco
 
 	ArduinoController::~ArduinoController()
 	{
-		delete[this->bufferSize] this->y_buffer;
 		this->clear();
 		this->send();
+		delete[this->bufferSize] this->y_buffer;
 	}
 
 	void ArduinoController::setColor(size_t pos, byte* data)
 	{
+		if (pos > this->nbLeds) throw ERR_OUTOFRANGE;
 		memcpy(&this->y_buffer[6 + pos * 3], data, 3);
 	}
 
 	void ArduinoController::getColor(size_t pos, byte* data)
 	{
+		if (pos > this->nbLeds) throw ERR_OUTOFRANGE;
 		memcpy(data, &this->y_buffer[6 + pos * 3], 3);
 	}
 
