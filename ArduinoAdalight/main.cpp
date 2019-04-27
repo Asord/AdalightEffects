@@ -50,10 +50,12 @@ int main(int argc, char* argv[])
 	if(c.b_doClock)
 		effectsArray.append(new Clock(&controller));
 
+	effectsArray.append(new Comet(&controller));
+
+
 	if (effectsArray.size() == 0)
-	{
-		exit(0);
-	}
+		return 0;
+
 	tpl = (AbstractTemplate*)effectsArray[0];
 
 	int sleepTime = c.n_sleepms;
@@ -68,8 +70,7 @@ int main(int argc, char* argv[])
 			if (effect == effectsArray.size())
 			{
 				if (c.b_doLoopAtEnd) effect = 0;
-
-				else exit(0);
+				else return 0;
 			}
 
 			tpl = (AbstractTemplate*)effectsArray[effect];

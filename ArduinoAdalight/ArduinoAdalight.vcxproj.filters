@@ -72,6 +72,9 @@
     <ClCompile Include="templates\clock.cpp">
       <Filter>Fichiers sources\templates</Filter>
     </ClCompile>
+    <ClCompile Include="templates\comet.cpp">
+      <Filter>Fichiers sources\templates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="templates\abstractTemplate.h">
@@ -126,6 +129,9 @@
       <Filter>Fichiers d%27en-tête\tools</Filter>
     </ClInclude>
     <ClInclude Include="templates\clock.h">
+      <Filter>Fichiers d%27en-tête\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="templates\comet.h">
       <Filter>Fichiers d%27en-tête\templates</Filter>
     </ClInclude>
   </ItemGroup>
