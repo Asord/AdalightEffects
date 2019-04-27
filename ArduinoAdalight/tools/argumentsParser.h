@@ -24,7 +24,7 @@ if(param(X)) \
 
 struct config
 {
-	int n_nbLeds = 46;
+	int n_nbLeds = 28;
 
 	int n_loopCount = 200;
 	int n_sleepms = 50;
@@ -46,7 +46,7 @@ struct config
 	bool b_doFlares = false;
 	bool b_doTemplate = false;
 	bool b_doHalo = false;
-	bool b_doClock = true;
+	bool b_doClock = false;
 
 	int n_haloColor[3] = { 0xff, 0x0, 0x0 };
 
