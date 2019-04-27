@@ -6,3 +6,4 @@
 #include "templates/templateE.h"
 #include "templates/halo.h"
 #include "templates/clock.h"
+#include "templates/comet.h"
