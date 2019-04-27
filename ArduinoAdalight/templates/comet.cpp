@@ -10,7 +10,7 @@ namespace Asemco
 		this->switchEffect(); // init to comet effect
 	}
 
-	void Asemco::Comet::update()
+	void Comet::update()
 	{
 		this->p_controller->clear();
 
@@ -122,7 +122,7 @@ namespace Asemco
 		case(Step::COMET):
 			this->cSize = 5; // Base Frame before blink
 			this->limit = this->cSize; // Frames before blink
-			this->cPos = 10; // Nb Blinks
+			this->cPos = 8; // Nb Blinks
 
 			this->cDir = 1; // 1: blank | -1: colored
 
