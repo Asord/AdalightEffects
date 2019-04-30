@@ -51,12 +51,6 @@
     <ClCompile Include="tools\ptrArray.cpp">
       <Filter>Fichiers sources\tools</Filter>
     </ClCompile>
-    <ClCompile Include="tools\color.cpp">
-      <Filter>Fichiers sources\tools</Filter>
-    </ClCompile>
-    <ClCompile Include="tools\maths.cpp">
-      <Filter>Fichiers sources\tools</Filter>
-    </ClCompile>
     <ClCompile Include="tools\templateReader.cpp">
       <Filter>Fichiers sources\tools</Filter>
     </ClCompile>
@@ -105,12 +99,6 @@
       <Filter>Fichiers d%27en-tête\templates</Filter>
     </ClInclude>
     <ClInclude Include="tools\ptrArray.h">
-      <Filter>Fichiers d%27en-tête\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\color.h">
-      <Filter>Fichiers d%27en-tête\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\maths.h">
       <Filter>Fichiers d%27en-tête\tools</Filter>
     </ClInclude>
     <ClInclude Include="tools\templateReader.h">
