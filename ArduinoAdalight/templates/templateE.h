@@ -11,7 +11,6 @@ namespace Asemco
 		int speed;
 
 	private:
-		ArduinoController* controller;
 		TemplateReader fileData;
 
 		int framePos;

@@ -48,10 +48,10 @@ namespace Asemco
 				pos_1 = (pos_1 > 0) ? pos_1 : 0;
 
 
-				setColorAt(pos_0, &color);
+				setColorAt(pos_0, color);
 
 				if (pos_0 != pos_1)
-					setColorAt(pos_1, &color);
+					setColorAt(pos_1, color);
 
 				flare->n_delta += 1;
 			}
@@ -60,11 +60,11 @@ namespace Asemco
 
 		if (flares.size() < this->nbFlares)
 		{
-			if (chance(10))
+			if ((rand() % 100) < 10)
 			{
 				ushort pos = 5 + rand() % (this->nbLeds - 5);
 				Color color = Color();
-				color.randomColor();
+				color.ramdomColor();
 
 				this->flares.append(new flare_obj(pos, color));
 			}
@@ -74,14 +74,12 @@ namespace Asemco
 		this->p_controller->send();
 	}
 
-	void Flare::setColorAt(short pos, Color* color)
+	void Flare::setColorAt(short pos, const Color& color)
 	{
-		CBytes buff;
-		p_controller->getColor(pos, buff.color);
-		Color col = Color(buff);
-		col += *color;
+		Color atPos = Color();
+		p_controller->getColor(pos, atPos);
+		atPos += color;
 
-		CBytes bytes = col.toBytes();
-		this->p_controller->setColor(pos, bytes.color);
+		this->p_controller->setColor(pos, atPos);
 	}
 }

@@ -2,7 +2,7 @@
 #include "../ArduinoController.h"
 #include "../defines.h"
 
-#include "../tools/color.h"
+#include <AsColors.h>
 
 namespace Asemco
 {
@@ -12,7 +12,7 @@ namespace Asemco
 	{
 	protected:
 		ArduinoController* p_controller;
-		int nbLeds;
+		unsigned short nbLeds;
 
 	public:
 		virtual void update() = 0;

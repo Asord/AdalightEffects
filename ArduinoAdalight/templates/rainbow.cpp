@@ -33,9 +33,8 @@ namespace Asemco
 			float hue = ufmodf(this->hueBuffer[i] + (this->f_step*this->n_dir), 360.0f); // 
 			this->hueBuffer[i] = hue;
 
-			Color col(hue, 1.0, 1.0);
-			CBytes bytes = col.toBytes();
-			this->p_controller->setColor(i, bytes.color);
+			Color col = Color().fromHSV(hue, 1.0, 1.0);
+			this->p_controller->setColor(i, col);
 		}
 
 		this->p_controller->moderate(1.0f, 0.42f, 0.3f);

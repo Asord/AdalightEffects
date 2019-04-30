@@ -1,5 +1,5 @@
 #pragma once
-#include "../tools/color.h"
+#include <AsColors.h>
 #include <string>
 
 namespace Asemco

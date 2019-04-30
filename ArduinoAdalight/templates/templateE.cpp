@@ -14,7 +14,7 @@ namespace Asemco
 
 	void TemplateE::update()
 	{
-		this->controller->clear();
+		this->p_controller->clear();
 
 		if (this->framePos >= fileData.getNbFrames())
 		{
@@ -33,14 +33,13 @@ namespace Asemco
 		for (size_t i = 0; i < frameLen; ++i)
 		{
 			Color col = colors[frame[i]];
-			CBytes bytes = col.toBytes();
-			this->controller->setColor(i, bytes.color);
+			this->p_controller->setColor(i, col);
 		}
 
 		float* coefs = fileData.getCoefs();
-		this->controller->moderate(coefs[0], coefs[1], coefs[2]);
+		this->p_controller->moderate(coefs[0], coefs[1], coefs[2]);
 
-		this->controller->send();
+		this->p_controller->send();
 		this->framePos += 1;
 	}
 }

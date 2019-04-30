@@ -37,14 +37,14 @@ namespace Asemco
 		if (this->cDir > 0){
 
 			this->limit = max(this->cPos - this->cSize, 0);
-			for (int i = this->cPos; i > limit; --i)
-				this->p_controller->setColor(i, this->bytes.color);
+			for (unsigned short i = this->cPos; i > limit; --i)
+				this->p_controller->setColor(i, this->cColor);
 
 		}else{
 
 			this->limit = min(this->cPos + this->cSize, this->nbLeds);
-			for (int i = this->cPos; i < limit; ++i)
-				this->p_controller->setColor(i, this->bytes.color);
+			for (unsigned short i = this->cPos; i < limit; ++i)
+				this->p_controller->setColor(i, this->cColor);
 		}
 
 
@@ -92,9 +92,9 @@ namespace Asemco
 		
 		if (this->cDir < 0)
 		{
-			for (int i = 0; i < this->nbLeds; ++i)
+			for (unsigned short i = 0; i < this->nbLeds; ++i)
 			{
-				this->p_controller->setColor(i, bytes.color);
+				this->p_controller->setColor(i, this->cColor);
 			}
 		}
 		this->limit--;
@@ -110,7 +110,7 @@ namespace Asemco
 		}
 
 		for (int i = 0; i < this->limit; ++i)
-			this->p_controller->setColor(i, bytes.color);
+			this->p_controller->setColor(i, this->cColor);
 
 		this->limit--;
 	}
@@ -150,9 +150,8 @@ namespace Asemco
 
 	void Comet::randomColor()
 	{
-		this->cColor = Color().randomColor();
+		this->cColor = Color().ramdomColor();
 		this->cColor.coef(1.0f, 0.42f, 0.3f);
-		this->bytes = this->cColor.toBytes();
 	}
 
 }

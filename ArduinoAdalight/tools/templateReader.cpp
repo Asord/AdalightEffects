@@ -25,7 +25,7 @@ Asemco::TemplateReader::TemplateReader(std::string file)
 			{
 				char buf[3];
 				myFile.read(buf, 3);
-				colors[i].fromBytes(buf);
+				colors[i] = Color((PUINT8)buf);
 			}
 
 			this->nbElements = this->nbFrames*this->frameLen;

@@ -17,9 +17,8 @@ namespace Asemco
 
 		for (int i = 0; i < this->nbLeds; ++i)
 		{
-			Color col(this->f_hue, 1.0, 1.0);
-			CBytes bytes = col.toBytes();
-			this->p_controller->setColor(i, bytes.color);
+			Color col = Color().fromHSV(this->f_hue, 1.0, 1.0);
+			this->p_controller->setColor(i, col);
 		}
 
 		this->f_hue = ufmodf(this->f_hue + this->f_step, 360.0f);

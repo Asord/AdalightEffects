@@ -19,7 +19,7 @@ namespace Asemco
 	private:
 		ushort nbFlares;
 		Asemco::ptrArray flares;
-		void setColorAt(short, Color*);
+		void setColorAt(short, const Color&);
 
 	public:
 		Flare(ArduinoController*, ushort);

@@ -16,7 +16,6 @@ namespace Asemco
 		short cDir;
 
 		Color cColor;
-		CBytes bytes;
 		Step step;
 
 	public:

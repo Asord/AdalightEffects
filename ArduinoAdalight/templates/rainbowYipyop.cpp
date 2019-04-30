@@ -51,10 +51,9 @@ namespace Asemco
 		else
 		{
 			this->f_currentHue = ufmodf(this->f_currentHue + this->f_step, 360.0f);
-			Color col(this->f_currentHue, 1.0, 1.0);
+			Color col = Color().fromHSV(this->f_currentHue, 1.0, 1.0);
 			col.coef(1.0f, 0.42f, 0.3f);
-			CBytes bytes = col.toBytes();
-			this->p_controller->setColor(this->n_positionHue, bytes.color);
+			this->p_controller->setColor(this->n_positionHue, col);
 		}
 		this->n_positionHue += this->n_directionHue;
 
