@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	config c = argvParser(argc, argv);
 
-	ArduinoController controller((char*)c.portName.c_str(), c.n_nbLeds);
+	ArduinoController controller((char*)c.portName.c_str(), c.n_nbLeds, ColOrder::RBG);
 
 	int baseCounter = c.n_loopCount;
 	int loopCounter = baseCounter;
@@ -48,9 +48,10 @@ int main(int argc, char* argv[])
 		effectsArray.append(new Halo(&controller, Color(c.n_haloColor), c.n_haloStartPos));
 
 	if(c.b_doClock)
-		effectsArray.append(new Clock(&controller));
+		effectsArray.append(new Clock(&controller, c.n_clockIntensity));
 
-	effectsArray.append(new Comet(&controller));
+	if(c.b_doComet)
+		effectsArray.append(new Comet(&controller));
 
 
 	if (effectsArray.size() == 0)
