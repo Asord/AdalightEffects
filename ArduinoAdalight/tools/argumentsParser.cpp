@@ -1,8 +1,8 @@
 #include "argumentsParser.h"
-#include <iostream>
-#include <windows.h>
 
-namespace Asemco {
+namespace Asemco 
+{
+
 	config argvParser(int argc, char* argv[])
 	{
 		config c;
@@ -19,6 +19,7 @@ namespace Asemco {
 			singleParamContinue("-rainbowstatic", c.b_doRainbowStatic);
 			singleParamContinue("-flares", c.b_doFlares);
 			singleParamContinue("-clock", c.b_doClock);
+			singleParamContinue("-comet", c.b_doComet);
 
 			twoParamConvert("-steps", c.n_loopCount, std::stoi);
 			twoParamConvert("-sleep", c.n_sleepms, std::stoi);
@@ -29,13 +30,26 @@ namespace Asemco {
 			twoParamConvert("-offsethalo", c.n_haloStartPos, std::stoi);
 			twoParamConvert("-nbleds", c.n_nbLeds, std::stoi);
 
+			if (param("-intensity"))
+			{
+				int intensity = std::stoi(argv[i + 1]);
+				if (intensity < 0 || intensity > 100)
+					intensity = 100;
+
+				c.n_clockIntensity = intensity;
+			}
+
 			if (param("-halo"))
 			{
 				c.b_doHalo = true;
 
+				#define _ui(e) (unsigned int*)(&e)
+
 				char* color = argv[i + 1]+1;
 				if (color[0] == '#' && color[7] == '\x0') // only right sized data
-					sscanf(color, "%02x%02x%02x", &c.n_haloColor[0], &c.n_haloColor[1], &c.n_haloColor[2]);
+					sscanf(color, "%02x%02x%02x", _ui(c.n_haloColor[0]), _ui(c.n_haloColor[1]), _ui(c.n_haloColor[2]));
+
+				#undef _ui
 			}
 
 			if (param("-template"))

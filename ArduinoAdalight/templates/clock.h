@@ -14,18 +14,24 @@ namespace Asemco
 		int min;
 		int sec;
 
+		Color hColor;
+		Color mColor;
+		Color sColor;
 
-		ArduinoController* p_controller;
-
+		int updateType = 0;
 
 	public:
-		Clock(ArduinoController* controller);
+		Clock(ArduinoController* controller, UINT8 lightPercent);
 
 		void update();
+		void updateBinary();
+		void updateShade();
 
 		void getClockTime();
 
-		void setColAtPos(Color& color, size_t pos);
+
+		void setShadeAtPos(UINT8 decade, UINT8 pos);
+		void setColAtPos(Color& color, UINT8 pos);
 	};
 
 }

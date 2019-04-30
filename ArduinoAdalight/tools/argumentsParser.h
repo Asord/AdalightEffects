@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <windows.h>
 
 namespace Asemco
 {
@@ -37,6 +39,8 @@ struct config
 
 	int n_nbFlares = 5;
 
+	int n_clockIntensity = 100;
+
 	bool b_clearAllLeds = false;
 	bool b_doLoopAtEnd = true;
 
@@ -47,8 +51,9 @@ struct config
 	bool b_doTemplate = false;
 	bool b_doHalo = false;
 	bool b_doClock = false;
+	bool b_doComet = false;
 
-	int n_haloColor[3] = { 0xff, 0x0, 0x0 };
+	UINT8 n_haloColor[3] = { (UINT8)(0xff), (UINT8)(0x0), (UINT8)(0x0) };
 
 	std::string s_templateFile;
 	std::string portName = "\\\\.\\COM4";
