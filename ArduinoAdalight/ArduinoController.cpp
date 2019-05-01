@@ -78,9 +78,9 @@ namespace Asemco
 	{
 		for (size_t i = 6; i < this->bufferSize; i += 3)
 		{
-			this->y_buffer[0] = (UINT8)(this->y_buffer[0] * cR);
-			this->y_buffer[1] = (UINT8)(this->y_buffer[1] * cG);
-			this->y_buffer[2] = (UINT8)(this->y_buffer[2] * cB);
+			this->y_buffer[i + 0] = (UINT8)(this->y_buffer[i + 0] * cR);
+			this->y_buffer[i + 1] = (UINT8)(this->y_buffer[i + 1] * cG);
+			this->y_buffer[i + 2] = (UINT8)(this->y_buffer[i + 2] * cB);
 		}
 	}
 
