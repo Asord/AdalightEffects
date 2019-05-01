@@ -27,8 +27,8 @@ namespace Asemco
 
 		Color::Color(PUINT8 uint8_array)
 		{
-			#pragma warning(disable:4312)
-			memcpy((void*)this->_color, uint8_array, 3);
+			UINT* local = (UINT*)uint8_array;
+			this->_color = *local;
 		}
 
 		Color::Color(UINT color)
@@ -39,14 +39,14 @@ namespace Asemco
 
 		VOID Color::get(PUINT8 uint8_array) const
 		{
-			#pragma warning(disable:4312)
-			memcpy((void*)uint8_array, (void*)this->_color, 3);
+			UINT* local = (UINT*)uint8_array;
+			*local = this->_color;
 		}
 
 		VOID Color::set(CPUINT8 uint8_array)
 		{
-			#pragma warning(disable:4312)
-			memcpy((void*)this->_color, uint8_array, 3);
+			UINT* local = (UINT*)uint8_array;
+			this->_color = *local;
 		}
 
 		VOID Color::fromInt(CUINT color)
