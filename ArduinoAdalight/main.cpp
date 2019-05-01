@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	config c = argvParser(argc, argv);
 
-	ArduinoController controller((char*)c.portName.c_str(), c.n_nbLeds, ColOrder::RBG);
+	ArduinoController controller((char*)c.portName.c_str(), c.n_nbLeds);
 
 	int baseCounter = c.n_loopCount;
 	int loopCounter = baseCounter;

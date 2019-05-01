@@ -1,104 +1,25 @@
 #include "ArduinoController.h"
+#include <algorithm>
 
 namespace Asemco
 {
-	void ArduinoController::swampOrderI(const PUINT8 in, PUINT8 out)
-	{
-		switch (this->colorOrder)
-		{
-		case ColOrder::RGB: // beacause in is RGB
-			break;
-		case ColOrder::RBG:
-			out[0] = in[0];
-			out[1] = in[2];
-			out[2] = in[1];
-			break;
-		case ColOrder::GRB:
-			out[0] = in[1];
-			out[1] = in[0];
-			out[2] = in[2];
-			break;
-		case ColOrder::GBR:
-			out[0] = in[1];
-			out[1] = in[2];
-			out[2] = in[0];
-			break;
-		case ColOrder::BRG:
-			out[0] = in[2];
-			out[1] = in[0];
-			out[2] = in[1];
-			break;
-		case ColOrder::BGR:
-			out[0] = in[2];
-			out[1] = in[1];
-			out[2] = in[0];
-			break;
-		}
-	}
-	void ArduinoController::swampOrderI(PUINT8 inout)
-	{
-		UINT8 tmp[3];
-		memcpy(tmp, inout, 3);
-		swampOrderI(tmp, inout);
-	}
-	void ArduinoController::swampOrderO(const PUINT8 in, PUINT8 out)
-	{
-		switch (this->colorOrder)
-		{
-		case ColOrder::RGB: // beacause out is RGB
-			break;
-		case ColOrder::RBG:
-			out[0] = in[0];
-			out[2] = in[1];
-			out[1] = in[2];
-			break;
-		case ColOrder::GRB:
-			out[1] = in[0];
-			out[0] = in[1];
-			out[2] = in[2];
-			break;
-		case ColOrder::GBR:
-			out[1] = in[0];
-			out[2] = in[1];
-			out[0] = in[2];
-			break;
-		case ColOrder::BRG:
-			out[2] = in[0];
-			out[0] = in[1];
-			out[1] = in[2];
-			break;
-		case ColOrder::BGR:
-			out[2] = in[0];
-			out[1] = in[1];
-			out[0] = in[2];
-			break;
-		}
-	}
-	void ArduinoController::swampOrderO(PUINT8 inout)
-	{
-		UINT8 tmp[3];
-		memcpy(tmp, inout, 3);
-		swampOrderO(tmp, inout);
-	}
-	ArduinoController::ArduinoController(char* port, ColOrder order)
+	ArduinoController::ArduinoController(char* port)
 		: serial(port)
 	{
 		this->nbLeds = NBLEDS;
 		this->bufferSize = 6 + 3 * NBLEDS;
 		this->y_buffer = new byte[this->bufferSize];
-		this->colorOrder = order;
 
 		this->clear();
 		this->setHeader();
 	}
 
-	ArduinoController::ArduinoController(char* port, usize nbLeds, ColOrder order)
+	ArduinoController::ArduinoController(char* port, usize nbLeds)
 		: serial(port)
 	{
 		this->nbLeds = nbLeds;
 		this->bufferSize = 6 + 3 * nbLeds;
 		this->y_buffer = new byte[this->bufferSize];
-		this->colorOrder = order;
 
 		this->clear();
 		this->setHeader();
@@ -113,22 +34,16 @@ namespace Asemco
 
 	void ArduinoController::setColorB(size_t idx, const PUINT8 uint8_array)
 	{
-		UINT8 tmpArr[3];
-		swampOrderI(uint8_array, tmpArr);
-
 		if (idx > this->nbLeds) throw ERR_OUTOFRANGE;
-		memcpy(&this->y_buffer[6 + idx * 3], tmpArr, 3);
+		memcpy(&this->y_buffer[6 + idx * 3], uint8_array, 3);
 
 	}
 
 	void ArduinoController::getColorB(size_t idx, PUINT8 uint8_array)
 	{
-		UINT8 tmpArr[3];
 
 		if (idx > this->nbLeds) throw ERR_OUTOFRANGE;
-		memcpy(tmpArr, &this->y_buffer[6 + idx * 3], 3);
-
-		swampOrderO(tmpArr, uint8_array);
+		memcpy(uint8_array, &this->y_buffer[6 + idx * 3], 3);
 	}
 
 
@@ -137,8 +52,6 @@ namespace Asemco
 		if (idx > this->nbLeds) throw ERR_OUTOFRANGE;
 
 		UINT8 buff[3];color.get(buff);
-		swampOrderI(buff);
-
 		memcpy(&this->y_buffer[6 + idx * 3], buff, 3);
 
 	}
@@ -148,10 +61,7 @@ namespace Asemco
 		if (idx > this->nbLeds) throw ERR_OUTOFRANGE;
 
 		UINT8 buff[3];
-
 		memcpy(buff, &this->y_buffer[6 + idx * 3], 3);
-		swampOrderO(buff);
-
 		color.set(buff);
 	}
 
@@ -164,20 +74,13 @@ namespace Asemco
 		this->y_buffer[5] = this->y_buffer[3] ^ this->y_buffer[4] ^ 0x55;
 	}
 
-	void ArduinoController::moderate(float cr, float cg, float cb)
+	void ArduinoController::moderate(float cR, float cG, float cB)
 	{
-		UINT8 color[3];
-		Color tmp = Color();
-
 		for (size_t i = 6; i < this->bufferSize; i += 3)
 		{
-			swampOrderO(&y_buffer[i], color);
-
-			tmp.set(color);
-			tmp.coef(cr, cg, cb);
-			tmp.get(color);
-
-			swampOrderI(&y_buffer[i], color);
+			this->y_buffer[0] = (UINT8)(this->y_buffer[0] * cR);
+			this->y_buffer[1] = (UINT8)(this->y_buffer[1] * cG);
+			this->y_buffer[2] = (UINT8)(this->y_buffer[2] * cB);
 		}
 	}
 

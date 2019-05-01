@@ -9,8 +9,6 @@ constexpr usize NBLEDS = 28;
 
 namespace Asemco
 {
-	enum ColOrder { RGB, RBG, GRB, GBR, BRG, BGR };
-
 	class ArduinoController
 	{
 	private:
@@ -20,17 +18,9 @@ namespace Asemco
 		usize nbLeds;
 		size_t bufferSize;
 
-		ColOrder colorOrder;
-
-		void swampOrderI(const PUINT8 in, PUINT8 out);
-		void swampOrderI(PUINT8 inout);
-
-		void swampOrderO(const PUINT8 in, PUINT8 out);
-		void swampOrderO(PUINT8 inout);
-
 	public:
-		ArduinoController(char*, ColOrder order=ColOrder::RGB);
-		ArduinoController(char*, usize, ColOrder order = ColOrder::RGB);
+		ArduinoController(char*);
+		ArduinoController(char*, usize);
 		~ArduinoController();
 
 		void setColorB(size_t idx, const PUINT8 uint8_array);
