@@ -3,7 +3,6 @@
 
 namespace Asemco
 {
-
 	class Color
 	{
 	public:
@@ -17,22 +16,22 @@ namespace Asemco
 		static const Color Black;
 
 	private:
-		UINT8 _red;
-		UINT8 _green;
-		UINT8 _blue;
+		union {
+			struct { UINT8 _red, _green, _blue, _alpha;  };
+			UINT  _color;
+		};
 
 	public:
 		Color();
 		Color(UINT8 red, UINT8 green, UINT8 blue);
 		Color(PUINT8 uint8_array);
-		Color(UINT color, BOOL big_endian=true);
+		Color(UINT color);
 
 		VOID get(PUINT8 uint8_array) const;
 		VOID set(CPUINT8 uint8_array);
 
-		VOID fromInt(CUINTR color, BOOL big_endian=true);
-		VOID toIntRef(UINTR color, BOOL big_endian=true);
-		UINT toInt(BOOL big_endian = true);
+		VOID fromInt(CUINT color);
+		UINT toInt();
 
 		Color& fromHSV(FLOAT hue, FLOAT saturation, FLOAT value);
 		VOID toHSV(PFLOAT hsv);

@@ -27,80 +27,36 @@ namespace Asemco
 
 		Color::Color(PUINT8 uint8_array)
 		{
-			this->_red = uint8_array[0];
-			this->_green = uint8_array[1];
-			this->_blue = uint8_array[2];
+			#pragma warning(disable:4312)
+			memcpy((void*)this->_color, uint8_array, 3);
 		}
 
-		Color::Color(UINT color, BOOL big_endian)
+		Color::Color(UINT color)
 		{
-			if (big_endian)
-			{
-				this->_red =   (color & 0xff000000) >> 24;
-				this->_green = (color & 0x00ff0000) >> 16;
-				this->_blue =  (color & 0x0000ff00) >> 8;
-			}
-			else
-			{
-				this->_red =   (color & 0x000000ff);
-				this->_green = (color & 0x0000ff00) << 8;
-				this->_blue =  (color & 0x00ff0000) << 16;
-			}
+			this->_color = color;
 
 		}
 
 		VOID Color::get(PUINT8 uint8_array) const
 		{
-			uint8_array[0] = this->_red;
-			uint8_array[1] = this->_green;
-			uint8_array[2] = this->_blue;
+			#pragma warning(disable:4312)
+			memcpy((void*)uint8_array, (void*)this->_color, 3);
 		}
 
 		VOID Color::set(CPUINT8 uint8_array)
 		{
-			this->_red = uint8_array[0];
-			this->_green = uint8_array[1];
-			this->_blue = uint8_array[2];
+			#pragma warning(disable:4312)
+			memcpy((void*)this->_color, uint8_array, 3);
 		}
 
-		VOID Color::fromInt(CUINTR color, BOOL big_endian)
+		VOID Color::fromInt(CUINT color)
 		{
-			if (big_endian)
-			{
-				this->_red = (color & 0xff000000) >> 24;
-				this->_green = (color & 0x00ff0000) >> 16;
-				this->_blue = (color & 0x0000ff00) >> 8;
-			}
-			else
-			{
-				this->_red = (color & 0x000000ff);
-				this->_green = (color & 0x0000ff00) << 8;
-				this->_blue = (color & 0x00ff0000) << 16;
-			}
+			this->_color = color;
 		}
 
-		VOID Color::toIntRef(UINTR color, BOOL big_endian)
-		{
-			if (big_endian)
-			{
-				color = this->_red << 24 | this->_green << 16 | this->_blue << 8;
-			}
-			else
-			{
-				color = this->_red | this->_green << 8 | this->_blue  << 16;
-			}
-		}
-
-		UINT Color::toInt(BOOL big_endian)
+		UINT Color::toInt()
 		{	
-			if (big_endian)
-			{
-				return this->_red << 24 | this->_green << 16 | this->_blue << 8;
-			}
-			else
-			{
-				return this->_red | this->_green << 8 | this->_blue << 16;
-			}
+			return this->_color;
 		}
 
 		Color & Color::fromHSV(FLOAT h, FLOAT s, FLOAT v)
@@ -180,10 +136,7 @@ namespace Asemco
 
 		Color & Color::random()
 		{
-			this->_red = rand() % 256;
-			this->_green = rand() % 256;
-			this->_blue = rand() % 256;
-
+			this->_color = rand();
 			return *this;
 		}
 
@@ -204,17 +157,13 @@ namespace Asemco
 
 		Color & Color::black()
 		{
-			this->_red = 0;
-			this->_green = 0;
-			this->_blue = 0;
+			this->_color = 0x00000000;
 			return *this;
 		}
 
 		Color & Color::white()
 		{
-			this->_red = 255;
-			this->_green = 255;
-			this->_blue = 255;
+			this->_color = 0xffffffff;
 			return *this;
 		}
 
@@ -228,49 +177,12 @@ namespace Asemco
 
 		Color & Color::coef(FLOAT coefr, FLOAT coefg, FLOAT coefb)
 		{
-			/* COLOR IS 00???? */
-			if (this->_red == 0)
-			{
-				// COLOR IS 0000?? OR 00??00
-				if (this->_green == 0 || this->_blue == 0)
-					return *this;
+			if (!(_color & 0xffff00) || !(_color & 0x00ffff) || !(_color & 0xff00ff))
+				return *this;
 
-				FLOAT cg = coefg; FLOAT cb = coefb;
-				normalize(cg, cb);
-
-				this->_green = (UINT8)((FLOAT)this->_green * cg);
-				this->_blue = (UINT8)((FLOAT)this->_blue * cb);
-			}
-			/* COLOR IS ??00?? */
-			else if (this->_green == 0)
-			{
-				/* COLOR IS ??0000 */
-				if (this->_blue == 0)
-					return *this;
-
-				FLOAT cr = coefr; FLOAT cb = coefb;
-				normalize(cr, cb);
-
-				this->_red = (UINT8)((FLOAT)this->_red * cr);
-				this->_blue = (UINT8)((FLOAT)this->_blue * cb);
-
-			}
-			/* COLOR IS ????00 */
-			else if (this->_blue == 0)
-			{
-				FLOAT cr = coefr; FLOAT cg = coefg;
-				normalize(cr, cg);
-
-				this->_red = (UINT8)((FLOAT)this->_red * cr);
-				this->_green = (UINT8)((FLOAT)this->_green * cg);
-			}
-			/* COLOR IS ?????? */
-			else 
-			{
-				this->_red = (UINT8)((FLOAT)this->_red * coefr);
-				this->_green = (UINT8)((FLOAT)this->_green * coefg);
-				this->_blue = (UINT8)((FLOAT)this->_blue * coefb);
-			}
+			this->_red   = (UINT8)(this->_red   * coefr);
+			this->_green = (UINT8)(this->_green * coefg);
+			this->_blue  = (UINT8)(this->_blue  * coefb);
 
 			return *this;
 		}
