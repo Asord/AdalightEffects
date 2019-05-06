@@ -16,6 +16,8 @@ namespace Asemco
 			this->_red = 255;
 			this->_green = 255;
 			this->_blue = 255;
+
+			this->_alpha = 255;
 		}
 
 		Color::Color(UINT8 red, UINT8 green, UINT8 blue)
@@ -23,6 +25,8 @@ namespace Asemco
 			this->_red = red;
 			this->_green = green;
 			this->_blue = blue;
+
+			this->_alpha = 255;
 		}
 
 		Color::Color(PUINT8 uint8_array)
@@ -34,7 +38,6 @@ namespace Asemco
 		Color::Color(UINT color)
 		{
 			this->_color = color;
-
 		}
 
 		VOID Color::get(PUINT8 uint8_array) const
@@ -49,9 +52,10 @@ namespace Asemco
 			this->_color = *local;
 		}
 
-		VOID Color::fromInt(CUINT color)
+		Color& Color::fromInt(CUINT color)
 		{
 			this->_color = color;
+			return *this;
 		}
 
 		UINT Color::toInt()
@@ -59,38 +63,93 @@ namespace Asemco
 			return this->_color;
 		}
 
+		Color & Color::fromHue(FLOAT hue)
+		{
+			FLOAT h60 = hue / 60.0f;
+			UINT8 h60f = (UINT8)h60;
+
+			FLOAT f = h60 - h60f;
+
+			switch (h60f)
+			{
+			case 0:
+				this->_color = 0xff0000ff | (UINT)(f * 255) << 8;
+				break;
+			case 1:
+				this->_color = 0xff00ff00 | (255 - (UINT)(f * 255));
+				break;
+			case 2:
+				this->_color = 0xff00ff00 | (UINT)(f * 255) << 16;
+				break;
+			case 3:
+				this->_color = 0xffff0000 | (255 - (UINT)(f * 255)) << 8;
+				break;
+			case 4:
+				this->_color = 0xffff0000 | (UINT)(f * 255);
+				break;
+			case 5:
+				this->_color = 0xff0000ff | (255 - (UINT)(f * 255)) << 16;
+				break;
+			default:
+				break;
+			}
+
+			return *this;
+		}
+		
 		Color & Color::fromHSV(FLOAT h, FLOAT s, FLOAT v)
 		{
+			FLOAT h60 = h / 60.0f;
+			UINT h60f = (UINT)h60;
+
+			FLOAT f = h60 - h60f;
+
+			FLOAT p = v * (1.0f - s);
+			FLOAT q = v * (1.0f - f * s);
+			FLOAT t = v * (1.0f - (1.0f - f) * s);
+
+			switch (h60f)
 			{
-				FLOAT h60 = h / 60.0f;
-				FLOAT h60f = (FLOAT)floor(h60);
-
-				UINT hi = (UINT)h60f % 6;
-
-				FLOAT f = h60 - h60f;
-
-				FLOAT p = v * (1.0f - s);
-				FLOAT q = v * (1.0f - f * s);
-				FLOAT t = v * (1.0f - (1.0f - f) * s);
-
-				FLOAT r = 0.0f, g = 0.0f, b = 0.0f;
-
-				switch (hi)
-				{
-				case 0: r = v; g = t; b = p; break;
-				case 1: r = q; g = v; b = p; break;
-				case 2: r = p; g = v; b = t; break;
-				case 3: r = p; g = q; b = v; break;
-				case 4: r = t; g = p; b = v; break;
-				case 5: r = v; g = p; b = q; break;
-				}
-
-				this->_red = (UINT8)(r * 255);
-				this->_green = (UINT8)(g * 255);
-				this->_blue = (UINT8)(b * 255);
-
-				return *this;
+			case 0: 
+				this->_color = 0xff000000 
+					| (UINT8)(v * 255)
+					| (UINT8)(t * 255) << 8 
+					| (UINT8)(p * 255) << 16;
+				break;
+			case 1:
+				this->_color = 0xff000000 
+					| (UINT8)(q * 255)
+					| (UINT8)(v * 255) << 8 
+					| (UINT8)(p * 255) << 16;
+				break;
+			case 2:
+				this->_color = 0xff000000
+					| (UINT8)(p * 255)
+					| (UINT8)(v * 255) << 8
+					| (UINT8)(t * 255) << 16;
+				break;
+			case 3:
+				this->_color = 0xff000000
+					| (UINT8)(p * 255) 
+					| (UINT8)(q * 255) << 8 
+					| (UINT8)(v * 255) << 16;
+				break;
+			case 4:
+				this->_color = 0xff000000
+					| (UINT8)(t * 255)
+					| (UINT8)(p * 255) << 8 
+					| (UINT8)(v * 255) << 16;
+				break;
+			case 5:
+				this->_color = 0xff000000
+					| (UINT8)(v * 255)
+					| (UINT8)(p * 255) << 8 
+					| (UINT8)(q * 255) << 16;
+				break;
+			default: break;
 			}
+
+			return *this;
 		}
 
 		VOID Color::toHSV(PFLOAT hsv)
@@ -151,13 +210,13 @@ namespace Asemco
 			UINT r = randRange(n_min, n_max);
 			FLOAT h = (FLOAT)r / 100.0f;
 
-			this->fromHSV(h, 1.0f, 1.0f);
+			this->fromHue(h);
 			return *this;
 		}
 
 		Color & Color::black()
 		{
-			this->_color = 0x00000000;
+			this->_color = 0xff000000;
 			return *this;
 		}
 
@@ -177,7 +236,7 @@ namespace Asemco
 
 		Color & Color::coef(FLOAT coefr, FLOAT coefg, FLOAT coefb)
 		{
-			if (!(_color & 0xffff00) || !(_color & 0x00ffff) || !(_color & 0xff00ff))
+			if (_color == 0xffffff00 || _color == 0xff00ffff || _color == 0xffff00ff)
 				return *this;
 
 			this->_red   = (UINT8)(this->_red   * coefr);
@@ -209,13 +268,13 @@ namespace Asemco
 
 		Color Color::operator-(const Color & other) const
 		{
-			UINT red = (this->_red + other._red);
-			UINT green = (this->_green + other._green);
-			UINT blue = (this->_blue + other._blue);
+			short red = (this->_red - other._red);
+			short green = (this->_green - other._green);
+			short blue = (this->_blue - other._blue);
 
-			if (red < 255) red = 0;
-			if (green < 255) green = 0;
-			if (blue < 255) blue = 0;
+			if (red < 0) red = 0;
+			if (green < 0) green = 0;
+			if (blue < 0) blue = 0;
 
 			return Color((UINT8)red, (UINT8)green, (UINT8)blue);
 		}
