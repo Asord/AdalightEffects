@@ -1,5 +1,5 @@
-#include "ArduinoController.h"
 #include <algorithm>
+#include "ArduinoController.h"
 
 namespace Asemco
 {
@@ -47,11 +47,12 @@ namespace Asemco
 	}
 
 
-	void ArduinoController::setColor(size_t idx, /*const*/ Color& color)
+	void ArduinoController::setColor(size_t idx, const Color& color)
 	{
 		if (idx > this->nbLeds) throw ERR_OUTOFRANGE;
 
-		UINT8 buff[3];color.get(buff);
+		UINT8 buff[4];
+		color.get(buff);
 		memcpy(&this->y_buffer[6 + idx * 3], buff, 3);
 
 	}
@@ -60,7 +61,7 @@ namespace Asemco
 	{
 		if (idx > this->nbLeds) throw ERR_OUTOFRANGE;
 
-		UINT8 buff[3];
+		UINT8 buff[4];
 		memcpy(buff, &this->y_buffer[6 + idx * 3], 3);
 		color.set(buff);
 	}

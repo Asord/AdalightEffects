@@ -1,6 +1,6 @@
 #pragma once
-#include "Serial.h"
 #include <AsColors.h>
+#include "Serial.h"
 
 typedef unsigned char usize;
 
@@ -25,7 +25,7 @@ namespace Asemco
 
 		void setColorB(size_t idx, const PUINT8 uint8_array);
 		void getColorB(size_t idx, PUINT8 uint8_array);
-		void setColor(size_t idx, /*const*/ Color& color);
+		void setColor(size_t idx, const Color& color);
 		void getColor(size_t idx, Color& color);
 
 		unsigned short getNbLeds() const;
