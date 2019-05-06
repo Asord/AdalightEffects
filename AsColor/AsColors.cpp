@@ -58,7 +58,7 @@ namespace Asemco
 			return *this;
 		}
 
-		UINT Color::toInt()
+		UINT Color::toInt() const
 		{	
 			return this->_color;
 		}

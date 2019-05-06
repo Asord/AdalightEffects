@@ -16,9 +16,9 @@ namespace Asemco
 		static const Color Black;
 
 	#ifdef _ALLPUBLIC
-		public:
+	public:
 	#else
-		private:
+	private:
 	#endif
 		union {
 			struct { UINT8 _red, _green, _blue, _alpha; };
@@ -35,7 +35,7 @@ namespace Asemco
 		VOID set(CPUINT8 uint8_array);
 
 		Color& fromInt(CUINT color);
-		UINT toInt();
+		UINT toInt() const;
 
 		Color& fromHue(FLOAT hue);
 		Color& fromHSV(FLOAT hue, FLOAT saturation, FLOAT value);
