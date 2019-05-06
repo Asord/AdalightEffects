@@ -1,3 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AsColors.cpp" />
+    <ClCompile Include="AsMath.cpp" />
+    <ClCompile Include="D:\Personnal Data\Google Drive\Programmation\Visual Studio C++\AdalightEffects\AsColor\littletestframework\test.cpp">
+      <Filter>simpletestframework</Filter>
+    </ClCompile>
+    <ClCompile Include="AsSerial.cpp" />
+    <ClCompile Include="AdalightBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AsColors.h" />
+    <ClInclude Include="AsMath.h" />
+    <ClInclude Include="D:\Personnal Data\Google Drive\Programmation\Visual Studio C++\AdalightEffects\AsColor\littletestframework\test.h">
+      <Filter>simpletestframework</Filter>
+    </ClInclude>
+    <ClInclude Include="AsSerial.h" />
+    <ClInclude Include="AdalightBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="simpletestframework">
+      <UniqueIdentifier>{df4bc697-172e-4bb2-aedb-72040b15f3e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
