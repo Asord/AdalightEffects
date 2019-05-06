@@ -3,16 +3,24 @@
 #include <random>
 
 typedef unsigned char UINT8;
+typedef unsigned char& UINT8R;
 typedef unsigned char* PUINT8;
 typedef const unsigned char* CPUINT8;
+
+
 typedef unsigned int UINT;
 typedef const unsigned int CUINT;
 typedef unsigned int& UINTR;
 typedef const unsigned int& CUINTR;
+
 typedef float FLOAT;
+typedef const float CFLOAT;
 typedef float& FLOATR;
 typedef float* PFLOAT;
+
 typedef int BOOL;
+typedef bool _SBOOL;
+
 #ifndef VOID
 typedef void VOID;
 #endif
