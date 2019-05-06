@@ -22,7 +22,6 @@ Color colors[] = {
 	Color::Magenta // 7
 };
 
-#define loop(x) int i = 0; i < x; ++i
 
 bool testRGB(Color color, UINT8 red, UINT8 gre, UINT8 blu)
 {
@@ -149,7 +148,7 @@ int main()
 		TEST("Test random()", isInDom(colR), true);
 
 		NOTICE("TEST 5 FOIS:\n")
-		for (loop(5))
+		for(int i = 0; i < 5; ++i)
 		{
 			VERIF_IMP_1(Color::ramdomColor, colRC.ramdomColor(50.0f, 150.0f));
 			TEST("\tTest randomColor n " << i, isInDomDeg(colRC, 50.0f, 150.0f), true);
