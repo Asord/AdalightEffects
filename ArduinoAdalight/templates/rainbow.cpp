@@ -28,12 +28,19 @@ namespace Asemco
 	{
 		this->p_controller->clear();
 
+		Color col;
+		float hue;
+
 		for (int i = 0; i < this->nbLeds; ++i)
 		{
-			float hue = ufmodf(this->hueBuffer[i] + (this->f_step*this->n_dir), 360.0f); // 
+			hue = this->hueBuffer[i] + this->f_step*this->n_dir;
+
+			if (hue > 359.99f) hue -= 360.0f;
+			else if (hue < 0.00f) hue += 360.0f;
+
 			this->hueBuffer[i] = hue;
 
-			Color col = Color().fromHSV(hue, 1.0, 1.0);
+			col.fromHue(hue);
 			this->p_controller->setColor(i, col);
 		}
 
