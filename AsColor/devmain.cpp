@@ -1,11 +1,16 @@
 #ifdef _DEVELOPPEMENT
 #define _ALLPUBLIC
 
-#include "littletestframework/test.h"
-#include "AsColors.h"
+#define COMPORT "COM4"
+
+#define _fPORT "\\\\.\\" COMPORT // DO NOT EDIT
 
 #include <iostream>
 #include <chrono>
+
+#include "littletestframework/test.h"
+#include "AdalightBase.h"
+
 
 using namespace std;
 using namespace std::chrono;
@@ -22,6 +27,10 @@ Color colors[] = {
 	Color::Magenta // 7
 };
 
+bool testRGB_arr(PUINT8 arr, UINT8 red, UINT8 gre, UINT8 blu)
+{
+	return arr[0] == red && arr[1] == gre && arr[2] == blu;
+}
 
 bool testRGB(Color color, UINT8 red, UINT8 gre, UINT8 blu)
 {
@@ -34,22 +43,13 @@ bool testCol(Color color, UINT val)
 }
 
 template<typename T>
-bool cmpArr4(T* arr1, T* arr2)
+bool cmpArr(T* arr1, T* arr2, UINT8 size)
 {
-	return 
-		arr1[0] == arr2[0] &&
-		arr1[1] == arr2[1] &&
-		arr1[2] == arr2[2] &&
-		arr1[3] == arr2[3];
-}
+	bool result = true;
+	for (UINT8 i = 0; i < size; ++i)
+		result &= (arr1[i] == arr2[i]);
 
-template<typename T>
-bool cmpArr3(T* arr1, T* arr2)
-{
-	return
-		arr1[0] == arr2[0] &&
-		arr1[1] == arr2[1] &&
-		arr1[2] == arr2[2];
+	return result;
 }
 
 bool isInDom(Color col)
@@ -65,6 +65,13 @@ bool isInDomDeg(Color col, FLOAT min, FLOAT max)
 	FLOAT HSV[3];
 	col.toHSV(HSV);
 	return HSV[0] > min && HSV[0] < max;
+}
+
+char userInput()
+{
+	char BUFFER[250];
+	do { cin >> BUFFER; } while (BUFFER[0] != 'y' && BUFFER[0] != 'n');
+	return BUFFER[0];
 }
 
 int main()
@@ -100,7 +107,7 @@ int main()
 
 
 		VERIF_IMP_1(Color::get, col.get(g_arr));
-		TEST("Test get(uint8_arr)", cmpArr4<UINT8>(g_arr, g_arrN), true);
+		TEST("Test get(uint8_arr)", cmpArr<UINT8>(g_arr, g_arrN, 4), true);
 
 		VERIF_IMP_1(Color::set, col.set(s_arr));
 		TEST("TEST set(uint8_arr)", testRGB(col, 32, 16, 8), true);
@@ -124,7 +131,7 @@ int main()
 		TEST("Test fromHSV", testRGB(col, 0, 0, 127), true);
 
 		VERIF_IMP_1(Color::toHSV, col.toHSV(f_arr));
-		TEST("Test toHSV", cmpArr3<FLOAT>(f_arr, t_arr), true);
+		TEST("Test toHSV", cmpArr<FLOAT>(f_arr, t_arr, 3), true);
 	}
 	{
 		NOTICE("\nTest initializers\n\n");
@@ -210,6 +217,117 @@ int main()
 		#pragma warning( pop ) 
 
 		DELETE_VERIF_IMP(colptr);
+	}
+	cout << "Attention: les tests suivants nécessitent que vous ayez bien connecter votre ordinateur à un système Adalight (Arduino+leds)";
+	cout << "Le port utilisé sera le " << COMPORT << ". Pensez a vérifier votre configuration en cas d'échecs... Voir: #define COMPORT";
+	{
+
+		NOTICE("\nTest AdalightBase constructeurs\n\n");
+		#pragma warning( push )
+		#pragma warning( disable : 4838) // int to UINT warning in tab initialization
+		{
+			NOTICE("\nLes tests 4 tests suivants vont avoir besoins d'un petit temps avant de démarer, relatif à l'ouverture d'un socket\n\n");
+			UINT8 base5Header[] = 
+			{
+				'A', 'd', 'a',
+				(4) >> 8,
+				(4) & 0xff,
+				base5Header[3] ^ base5Header[4] ^ 0x55
+			};
+
+			CONSTRUCT_VERIF_IMP(AdalightBase, base5(_fPORT, 5));
+			TEST("Test nbLeds pour base5", base5.getNbLeds() == 5, true);
+			TEST("Test header pour base5", cmpArr(base5.y_buffer, base5Header, 6), true);
+			TEST("Test header pour base5", base5.serial.isConnected(), true);
+		}
+		{
+			UINT8 basedHeader[] = 
+			{
+				'A', 'd', 'a',
+				(NBLEDS - 1) >> 8,
+				(NBLEDS - 1) & 0xff,
+				basedHeader[3] ^ basedHeader[4] ^ 0x55
+			};
+
+			CONSTRUCT_VERIF_IMP(AdalightBase, based(_fPORT));
+			TEST("Test nbLeds pour based", based.getNbLeds() == NBLEDS, true);
+			TEST("Test header pour based", cmpArr(based.y_buffer, basedHeader, 6), true);
+			TEST("Test serial bien connecté", based.serial.isConnected(), true);
+
+
+			CONSTRUCT_VERIF_IMP(AdalightBase, basenc(_fPORT));
+			TEST("Test serial non connecté si déjà utilisé", basenc.serial.isConnected(), false);
+
+		}
+		#pragma warning( pop ) 
+
+		NOTICE("\nTest AdalightBase getColor, setColor, moderate\n\n");
+		{
+			UINT8 arr[] = { 0xff, 0x00, 0x00 };
+			UINT8 arr_col[] = { 0xff, 0x80, 0x40 };
+
+			CONSTRUCT_VERIF_IMP(Color, col(255, 128, 64));
+			CONSTRUCT_VERIF_IMP(AdalightBase, base5(_fPORT, 5));
+
+			VERIF_IMP_1(AdalightBase::setColorA, base5.setColorA(0, arr));
+			TEST_VERIF_IMP_1(AdalightBase::setColorA, "Vérification de AdalightBase::setColorA", cmpArr(&base5.y_buffer[6], arr, 3), true);
+
+			VERIF_IMP_1(AdalightBase::setColorC, base5.setColorC(1, col));
+			TEST_VERIF_IMP_1(AdalightBase::setColorC, "Vérification de AdalightBase::setColorC", cmpArr(&base5.y_buffer[6+3], arr_col, 3), true);
+
+			VERIF_IMP_1(AdalightBase::getColorA, base5.getColorA(1, arr));
+			TEST_VERIF_IMP_1(AdalightBase::setColorA, "Vérification de AdalightBase::getColorA", testRGB_arr(arr, 255, 128, 64), true);
+
+			VERIF_IMP_1(AdalightBase::getColorC, base5.getColorC(0, col));
+			TEST_VERIF_IMP_1(AdalightBase::setColorC, "Vérification de AdalightBase::getColorC", testRGB(col, 255, 0, 0), true);
+			// HH EE AA DD EE RR ff 00 00 ff 80 40 00 00 00 [...]
+
+			UINT8 arr_mod[] = { 0x3f, 0x0, 0x0, 0x3f, 0x40, 0x40 };
+			VERIF_IMP_1(AdalightBase::moderate, base5.moderate(0.25f, 0.5f, 1.0f));
+			TEST_VERIF_IMP_1(AdalightBase::moderate, "Vérification de AdalightBase::moderate", cmpArr(&base5.y_buffer[6], arr_mod, 6), true);
+		}
+		{
+			NOTICE("\nTest AdalightBase rendu visuel\n\n");
+			NOTICE("\nLes tests suivants sont relatifs au rendu visuel... Vous devez confirmer manuellement le résultat...\n");
+			NOTICE("Pour confirmer le résultat du test, entrez 'y', pour l'infirmer entrez 'n'.\n");
+			
+			
+			CONSTRUCT_VERIF_IMP(AdalightBase, base(_fPORT));
+
+			Color RGB[] = { Color::Red, Color::Green, Color::Blue };
+			Color YCM[] = { Color::Yellow, Color::Cyan, Color::Magenta };
+			Color WBG[] = { Color::White, Color::Black, Color().gray(80) };
+			UINT tier = NBLEDS / 3;
+
+			for(int x = 0; x < 3; ++x) 
+				for (int i = 0; i < tier; ++i)
+					base.setColorC(x*tier + i, RGB[x]);
+
+			base.moderate(1.0f, 0.42f, 0.3f);
+			base.send();
+
+			TEST_VERIF_IMP_1(AdalightBase::send, "Vérification de AdalightBase::send avec couleurs Red, Green, Blue (1/3)", userInput() == 'y', true);
+			
+			for (int x = 0; x < 3; ++x)
+				for (int i = 0; i < tier; ++i)
+					base.setColorC(x*tier + i, YCM[x]);
+
+			base.moderate(1.0f, 0.42f, 0.3f);
+			base.send();
+			
+			TEST_VERIF_IMP_1(AdalightBase::send, "Vérification de AdalightBase::send avec couleurs Yellow, Cyan, Magenta (2/3)", userInput() == 'y', true);
+
+
+			for (int x = 0; x < 3; ++x)
+				for (int i = 0; i < tier; ++i)
+					base.setColorC(x*tier + i, WBG[x]);
+
+			base.moderate(1.0f, 0.42f, 0.3f);
+			base.send();
+
+			TEST_VERIF_IMP_1(AdalightBase::send, "Vérification de AdalightBase::send avec couleurs White, Black, Gray(50%) (3/3)", userInput() == 'y', true);
+		}
+		TEST_VERIF_IMP_1(AdalightBase::~AdalightBase, "Vérification que le destructeur efface les couleurs", userInput() == 'y', true);
 	}
 
 	END_TESTS
