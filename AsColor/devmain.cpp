@@ -1,4 +1,5 @@
 #ifdef _DEVELOPPEMENT
+
 #define _ALLPUBLIC
 
 #define COMPORT "COM4"
