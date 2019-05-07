@@ -12,6 +12,9 @@ typedef const unsigned int CUINT;
 typedef unsigned int& UINTR;
 typedef const unsigned int& CUINTR;
 
+typedef unsigned short USHORT;
+typedef int INT;
+
 typedef float FLOAT;
 typedef const float CFLOAT;
 typedef float& FLOATR;
