@@ -7,7 +7,9 @@
       <Filter>simpletestframework</Filter>
     </ClCompile>
     <ClCompile Include="AsSerial.cpp" />
-    <ClCompile Include="AdalightBase.cpp" />
+    <ClCompile Include="D:\Personnal Data\Google Drive\Programmation\Visual Studio C++\AdalightEffects\AsColor\devmain.cpp" />
+    <ClCompile Include="AdalightController.cpp" />
+    <ClCompile Include="SerialController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsColors.h" />
@@ -16,7 +18,10 @@
       <Filter>simpletestframework</Filter>
     </ClInclude>
     <ClInclude Include="AsSerial.h" />
-    <ClInclude Include="AdalightBase.h" />
+    <ClInclude Include="AdalightController.h" />
+    <ClInclude Include="SerialController.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="VirtualTemplate.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="simpletestframework">
