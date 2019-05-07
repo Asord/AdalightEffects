@@ -344,3 +344,4 @@ healthchecksdb
 MigrationBackup/
 /AsColor/devdebug/
 /devdebug
+/*.mdj
