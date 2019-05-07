@@ -7,19 +7,19 @@
 
 namespace Asemco
 {
-	BaseSerial::BaseSerial(LPCSTR portName)
+	Serial::Serial(LPCSTR portName)
 	{
 		this->b_connected = FALSE;
 		this->p_portName = portName;
 		connect();
 	}
 
-	BaseSerial::~BaseSerial()
+	Serial::~Serial()
 	{
 		this->disconnect();
 	}
 
-	INT BaseSerial::connect()
+	INT Serial::connect()
 	{
 		this->H_handler = CreateFileA(this->p_portName,
 			GENERIC_READ | GENERIC_WRITE,
@@ -65,7 +65,7 @@ namespace Asemco
 		return -1;
 	}
 
-	VOID BaseSerial::disconnect()
+	VOID Serial::disconnect()
 	{
 		if (this->b_connected)
 		{
@@ -74,7 +74,7 @@ namespace Asemco
 		}
 	}
 
-	INT BaseSerial::readSerialPort(PUINT8 buffer, UINT buf_size)
+	INT Serial::readSerialPort(PUINT8 buffer, UINT buf_size)
 	{
 		if (!b_connected)
 		{
@@ -105,7 +105,7 @@ namespace Asemco
 		return 0;
 	}
 
-	BOOL BaseSerial::writeSerialPort(PUINT8 buffer, UINT buf_size)
+	BOOL Serial::writeSerialPort(PUINT8 buffer, UINT buf_size)
 	{
 		if (!b_connected)
 		{
@@ -125,7 +125,7 @@ namespace Asemco
 		return TRUE;
 	}
 
-	BOOL BaseSerial::isConnected()
+	BOOL Serial::isConnected()
 	{
 		return this->b_connected;
 	}

@@ -6,7 +6,7 @@
 
 namespace Asemco
 {
-	class BaseSerial
+	class Serial
 	{
 	private:
 		HANDLE H_handler;
@@ -17,8 +17,8 @@ namespace Asemco
 		LPCSTR p_portName;
 
 	public:
-		BaseSerial(LPCSTR portName);
-		~BaseSerial();
+		Serial(LPCSTR portName);
+		~Serial();
 
 		INT connect();
 		VOID disconnect();
