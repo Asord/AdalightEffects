@@ -3,8 +3,10 @@
 #define _ALLPUBLIC
 
 #define COMPORT "COM4"
-
 #define _fPORT "\\\\.\\" COMPORT // DO NOT EDIT
+
+#define _TESTLEDS // Comment this line to avoid leds & controller tests (if you don't have any controller & leds plugged)
+
 
 #include <iostream>
 #include <chrono>
@@ -12,71 +14,28 @@
 #include "littletestframework/test.h"
 #include "AdalightController.h"
 
+#include "extendedTests.h"
 
 using namespace std;
 using namespace std::chrono;
 using namespace Asemco;
 
-Color colors[] = {
-	Color::Black, // 0
-	Color::White, // 1
-	Color::Red, // 2
-	Color::Green, // 3
-	Color::Blue, // 4
-	Color::Yellow, // 5
-	Color::Cyan, // 6
-	Color::Magenta // 7
-};
 
-bool testRGB_arr(PUINT8 arr, UINT8 red, UINT8 gre, UINT8 blu)
-{
-	return arr[0] == red && arr[1] == gre && arr[2] == blu;
-}
-
-bool testRGB(Color color, UINT8 red, UINT8 gre, UINT8 blu)
-{
-	return color._red == red && color._green == gre && color._blue == blu;
-}
-
-bool testCol(Color color, UINT val)
-{
-	return color._color == val;
-}
-
-template<typename T>
-bool cmpArr(T* arr1, T* arr2, UINT8 size)
-{
-	bool result = true;
-	for (UINT8 i = 0; i < size; ++i)
-		result &= (arr1[i] == arr2[i]);
-
-	return result;
-}
-
-bool isInDom(Color col)
-{
-	bool r = col._red >= 0 && col._red <= 255;
-	bool g = col._green >= 0 && col._green <= 255;
-	bool b = col._blue >= 0 && col._blue <= 255;
-	return r && g && b;
-}
-
-bool isInDomDeg(Color col, FLOAT min, FLOAT max)
-{
-	FLOAT HSV[3];
-	col.toHSV(HSV);
-	return HSV[0] > min && HSV[0] < max;
-}
-
-char userInput()
-{
-	char BUFFER[250];
-	do { cin >> BUFFER; } while (BUFFER[0] != 'y' && BUFFER[0] != 'n');
-	return BUFFER[0];
-}
 
 int main()
 {
+	Color colors[] = {
+		Color::Black, // 0
+		Color::White, // 1
+		Color::Red, // 2
+		Color::Green, // 3
+		Color::Blue, // 4
+		Color::Yellow, // 5
+		Color::Cyan, // 6
+		Color::Magenta // 7
+		};
+
+
 	BEGIN_TESTS
 	SetConsoleOutputCP(65001);
 
@@ -219,11 +178,14 @@ int main()
 
 		DELETE_VERIF_IMP(colptr);
 	}
+
+#ifdef _TESTLEDS
 	cout << "Attention: les tests suivants nécessitent que vous ayez bien connecter votre ordinateur à un système Adalight (Arduino+leds)";
 	cout << "Le port utilisé sera le " << COMPORT << ". Pensez a vérifier votre configuration en cas d'échecs... Voir: #define COMPORT";
 	{
 
 		NOTICE("\nTest AdalightBase constructeurs\n\n");
+
 		#pragma warning( push )
 		#pragma warning( disable : 4838) // int to UINT warning in tab initialization
 		{
@@ -239,28 +201,28 @@ int main()
 			CONSTRUCT_VERIF_IMP(AdalightController, base5(_fPORT, 5));
 			TEST("Test nbLeds pour base5", base5.getNbLeds() == 5, true);
 			TEST("Test header pour base5", cmpArr(base5.y_buffer, base5Header, 6), true);
-			TEST("Test header pour base5", base5.serial.isConnected(), true);
+			TEST("Test connection serial pour base5", (bool)base5.serial.isConnected(), true);
 		}
 		{
-			UINT8 basedHeader[] = 
-			{
-				'A', 'd', 'a',
-				(NBLEDS - 1) >> 8,
-				(NBLEDS - 1) & 0xff,
-				basedHeader[3] ^ basedHeader[4] ^ 0x55
-			};
+		UINT8 basedHeader[] =
+		{
+			'A', 'd', 'a',
+			(NBLEDS - 1) >> 8,
+			(NBLEDS - 1) & 0xff,
+			basedHeader[3] ^ basedHeader[4] ^ 0x55
+		};
+		#pragma warning( pop ) 
 
-			CONSTRUCT_VERIF_IMP(AdalightController, based(_fPORT));
-			TEST("Test nbLeds pour based", based.getNbLeds() == NBLEDS, true);
-			TEST("Test header pour based", cmpArr(based.y_buffer, basedHeader, 6), true);
-			TEST("Test serial bien connecté", based.serial.isConnected(), true);
+		CONSTRUCT_VERIF_IMP(AdalightController, based(_fPORT));
+		TEST("Test nbLeds pour based", based.getNbLeds() == NBLEDS, true);
+		TEST("Test header pour based", cmpArr(based.y_buffer, basedHeader, 6), true);
+		TEST("Test connection serial pour based", (bool)based.serial.isConnected(), true);
 
 
-			CONSTRUCT_VERIF_IMP(AdalightController, basenc(_fPORT));
-			TEST("Test serial non connecté si déjà utilisé", basenc.serial.isConnected(), false);
+		CONSTRUCT_VERIF_IMP(AdalightController, basenc(_fPORT));
+		TEST("Test serial non connecté si déjà utilisé", basenc.serial.isConnected(), false);
 
 		}
-		#pragma warning( pop ) 
 
 		NOTICE("\nTest AdalightBase getColor, setColor, moderate\n\n");
 		{
@@ -274,7 +236,7 @@ int main()
 			TEST_VERIF_IMP_1(AdalightController::setColorA, "Vérification de AdalightBase::setColorA", cmpArr(&base5.y_buffer[6], arr, 3), true);
 
 			VERIF_IMP_1(AdalightController::setColorC, base5.setColorC(1, col));
-			TEST_VERIF_IMP_1(AdalightController::setColorC, "Vérification de AdalightBase::setColorC", cmpArr(&base5.y_buffer[6+3], arr_col, 3), true);
+			TEST_VERIF_IMP_1(AdalightController::setColorC, "Vérification de AdalightBase::setColorC", cmpArr(&base5.y_buffer[6 + 3], arr_col, 3), true);
 
 			VERIF_IMP_1(AdalightController::getColorA, base5.getColorA(1, arr));
 			TEST_VERIF_IMP_1(AdalightController::setColorA, "Vérification de AdalightBase::getColorA", testRGB_arr(arr, 255, 128, 64), true);
@@ -291,8 +253,8 @@ int main()
 			NOTICE("\nTest AdalightBase rendu visuel\n\n");
 			NOTICE("\nLes tests suivants sont relatifs au rendu visuel... Vous devez confirmer manuellement le résultat...\n");
 			NOTICE("Pour confirmer le résultat du test, entrez 'y', pour l'infirmer entrez 'n'.\n");
-			
-			
+
+
 			CONSTRUCT_VERIF_IMP(AdalightController, base(_fPORT));
 
 			Color RGB[] = { Color::Red, Color::Green, Color::Blue };
@@ -300,36 +262,49 @@ int main()
 			Color WBG[] = { Color::White, Color::Black, Color().gray(80) };
 			UINT tier = NBLEDS / 3;
 
-			for(int x = 0; x < 3; ++x) 
-				for (int i = 0; i < tier; ++i)
+			for (UINT x = 0; x < 3; ++x)
+				for (UINT i = 0; i < tier; ++i)
 					base.setColorC(x*tier + i, RGB[x]);
 
 			base.moderate(1.0f, 0.42f, 0.3f);
 			base.send();
 
 			TEST_VERIF_IMP_1(AdalightController::send, "Vérification de AdalightBase::send avec couleurs Red, Green, Blue (1/3)", userInput() == 'y', true);
-			
-			for (int x = 0; x < 3; ++x)
-				for (int i = 0; i < tier; ++i)
+
+			for (UINT x = 0; x < 3; ++x)
+				for (UINT i = 0; i < tier; ++i)
 					base.setColorC(x*tier + i, YCM[x]);
 
 			base.moderate(1.0f, 0.42f, 0.3f);
 			base.send();
-			
+
 			TEST_VERIF_IMP_1(AdalightController::send, "Vérification de AdalightBase::send avec couleurs Yellow, Cyan, Magenta (2/3)", userInput() == 'y', true);
 
 
-			for (int x = 0; x < 3; ++x)
-				for (int i = 0; i < tier; ++i)
+			for (UINT x = 0; x < 3; ++x)
+				for (UINT i = 0; i < tier; ++i)
 					base.setColorC(x*tier + i, WBG[x]);
 
 			base.moderate(1.0f, 0.42f, 0.3f);
 			base.send();
 
 			TEST_VERIF_IMP_1(AdalightController::send, "Vérification de AdalightBase::send avec couleurs White, Black, Gray(50%) (3/3)", userInput() == 'y', true);
+
+
+			NOTICE("\nTest effet d'example, veuiller confirmer ou infirmer le rendu arc en ciel après 5s de test...\n\n");
+			CONSTRUCT_VERIF_IMP(testTemplate, tt(static_cast<Controller*>(&base), 0.6f));
+			for (int i = 0; i < 310; ++i) // ~5 sec @ 16ms par Update (60 FPS)
+			{
+				tt.Update();
+				Sleep(16);
+			}
+			TEST_VERIF_IMP_1(testTemplate::Update, "L'effet 'arc en ciel' à bien été rendu ?", userInput() == 'y', true);
+
 		}
 		TEST_VERIF_IMP_1(AdalightController::~AdalightController, "Vérification que le destructeur efface les couleurs", userInput() == 'y', true);
 	}
+#endif
+
 
 	END_TESTS
 	system("pause");

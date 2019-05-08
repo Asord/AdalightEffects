@@ -10,6 +10,7 @@
     <ClCompile Include="D:\Personnal Data\Google Drive\Programmation\Visual Studio C++\AdalightEffects\AsColor\devmain.cpp" />
     <ClCompile Include="AdalightController.cpp" />
     <ClCompile Include="SerialController.cpp" />
+    <ClCompile Include="extendedTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsColors.h" />
@@ -22,6 +23,7 @@
     <ClInclude Include="SerialController.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="VirtualTemplate.h" />
+    <ClInclude Include="extendedTests.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="simpletestframework">
