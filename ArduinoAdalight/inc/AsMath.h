@@ -7,11 +7,13 @@ typedef unsigned char& UINT8R;
 typedef unsigned char* PUINT8;
 typedef const unsigned char* CPUINT8;
 
-
 typedef unsigned int UINT;
 typedef const unsigned int CUINT;
 typedef unsigned int& UINTR;
 typedef const unsigned int& CUINTR;
+
+typedef unsigned short USHORT;
+typedef int INT;
 
 typedef float FLOAT;
 typedef const float CFLOAT;
@@ -22,11 +24,12 @@ typedef int BOOL;
 typedef bool _SBOOL;
 
 #ifndef VOID
-typedef void VOID;
+#define VOID void
 #endif
 
 namespace Asemco
 {
+
 	#define randRange(n_min, n_max) rand() % (n_max - n_min + 1) + n_min
 
 	VOID normalize(FLOATR num1, FLOATR num2);
@@ -36,4 +39,5 @@ namespace Asemco
 	FLOAT f3max(FLOAT f1, FLOAT f2, FLOAT f3);
 
 	FLOAT ufmodf(FLOAT fnum, FLOAT fmod);
+
 }
