@@ -4,33 +4,40 @@
 
 namespace Asemco
 {
+	#define readFile(file, buff, size) file.read((char*)buff, size)
+
 	class TemplateReader
 	{
 	private:
-		char magic[3] = "At";
-		char nbColors;
-		char nbFrames;
-		char frameLen;
-		float speed;
-		float coefs[3];
+		const UINT8 magic[3] = "At";
+		UINT8 nbColors;
+		UINT8 nbFrames;
+		UINT8 frameLen;
+
+		UINT nbElements;
+
+		FLOAT speed;
+		FLOAT coefs[3];
+
 		Color* colors;
 
-		int nbElements;
 
-		char* ledstemplate;
+		PUINT8 ledstemplate;
 
 	public:
 		TemplateReader(std::string file);
 		~TemplateReader();
 
-		int getNbColors();
-		int getNbFrames();
-		int getFrameLen();
-		int getNbElements();
-		float getSpeed();
-		float* getCoefs();
-		Color* getColors();
+		UINT8 getNbColors() const;
+		UINT8 getNbFrames() const;
+		UINT8 getFrameLen() const;
+		UINT getNbElements() const;
 
-		char* getLedsTemplate();
+		FLOAT getSpeed() const;
+		VOID getCoefs(FLOATR, FLOATR, FLOATR) const;
+
+		Color* getColors() const;
+
+		PUINT8 getLedsTemplate() const;
 	};
 }

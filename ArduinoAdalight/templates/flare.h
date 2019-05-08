@@ -1,9 +1,10 @@
 #pragma once
-#include "abstractTemplate.h"
+#include <VirtualTemplate.h>
 #include "../tools/ptrArray.h"
 
 typedef unsigned short ushort;
 
+/* TODO: test this template */
 namespace Asemco
 {
 	struct flare_obj
@@ -11,19 +12,22 @@ namespace Asemco
 		ushort n_pos;
 		ushort n_delta;
 		Color color;
-		flare_obj(short pos, Color color);
+		flare_obj(SHORT pos, Color color);
 	};
 
-	class Flare : public AbstractTemplate
+	class Flare : public VirtualTemplate
 	{
 	private:
-		ushort nbFlares;
+		UINT nbLeds;
+		USHORT nbFlares;
 		Asemco::ptrArray flares;
-		void setColorAt(short, const Color&);
 
 	public:
-		Flare(ArduinoController*, ushort);
-		void update();
+		Flare(Controller*, USHORT);
+		VOID Update();
+
+	private:
+		VOID setColorAt(SHORT, const Color&);
 	};
 
 

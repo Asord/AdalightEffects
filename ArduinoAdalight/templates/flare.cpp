@@ -2,7 +2,7 @@
 
 namespace Asemco
 {
-	flare_obj::flare_obj(short pos, Color color)
+	flare_obj::flare_obj(SHORT pos, Color color)
 	{
 		this->n_pos = pos;
 		this->n_delta = 0;
@@ -10,28 +10,30 @@ namespace Asemco
 	}
 
 
-	Flare::Flare(ArduinoController* controller, ushort nbFlares) : flares(nbFlares)
+	Flare::Flare(Controller* controller, USHORT nbFlares) 
+		: flares(nbFlares), VirtualTemplate(0x03, controller)
 	{
-		this->init(controller);
-
-		this->p_controller = controller;
+		this->nbLeds = this->controller->getNbLeds();
 		this->nbFlares = nbFlares;
 
 	}
 
 
-	void Flare::update()
+	void Flare::Update()
 	{
-		this->p_controller->clear();
+		this->controller->clear();
 
-		for (size_t i = 0; i < this->flares.size(); ++i)
+		Color color;
+		USHORT pos, delta;
+
+		for (UINT i = 0; i < this->flares.size(); ++i)
 		{
 
 			flare_obj* flare = _cast(flare_obj, this->flares[i]);
 
-			ushort pos = flare->n_pos;
-			ushort delta = flare->n_delta;
-			Color color = flare->color;
+			pos = flare->n_pos;
+			delta = flare->n_delta;
+			color = flare->color;
 
 
 			if (pos - delta < 0 and pos + delta > this->nbLeds - 1)
@@ -62,24 +64,24 @@ namespace Asemco
 		{
 			if ((rand() % 100) < 10)
 			{
-				ushort pos = 5 + rand() % (this->nbLeds - 5);
-				Color color = Color();
+				pos = 5 + rand() % (this->nbLeds - 5);
 				color.ramdomColor();
 
 				this->flares.append(new flare_obj(pos, color));
 			}
 		}
 
-		this->p_controller->moderate(1.0f, 0.3f, 0.42f);
-		this->p_controller->send();
+		this->controller->moderate(1.0f, 0.3f, 0.42f);
+		this->controller->send();
 	}
 
-	void Flare::setColorAt(short pos, const Color& color)
+	void Flare::setColorAt(SHORT pos, const Color& color)
 	{
 		Color atPos = Color();
-		p_controller->getColor(pos, atPos);
+
+		controller->getColorC(pos, atPos);
 		atPos += color;
 
-		this->p_controller->setColor(pos, atPos);
+		this->controller->setColorC(pos, atPos);
 	}
 }

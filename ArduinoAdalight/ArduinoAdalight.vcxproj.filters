@@ -30,13 +30,7 @@
     <ClCompile Include="templates\rainbowYipyop.cpp">
       <Filter>Fichiers sources\templates</Filter>
     </ClCompile>
-    <ClCompile Include="ArduinoController.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Serial.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="templates\rainbow.cpp">
@@ -71,23 +65,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="templates\abstractTemplate.h">
-      <Filter>Fichiers d%27en-tête\templates</Filter>
-    </ClInclude>
     <ClInclude Include="templates\Rainbow.h">
       <Filter>Fichiers d%27en-tête\templates</Filter>
     </ClInclude>
     <ClInclude Include="templates\RainbowYipyop.h">
       <Filter>Fichiers d%27en-tête\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="defines.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Serial.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ArduinoController.h">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="templates.h">
       <Filter>Fichiers d%27en-tête</Filter>

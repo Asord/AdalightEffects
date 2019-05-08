@@ -2,34 +2,28 @@
 #include "Rainbow.h"
 namespace Asemco
 {
-	Rainbow::Rainbow(ArduinoController* controller, float step, int dir)
+	Rainbow::Rainbow(Controller* controller, FLOAT step, INT dir)
+		: VirtualTemplate(0x05, controller)
 	{
-		this->init(controller);
+		this->nbLeds = this->controller->getNbLeds();
 
 		this->f_step = step;
 
-		this->f_hue = 0.0f;
 		this->n_dir = dir;
 
-		this->hueBuffer = new float[this->nbLeds];
-		float diff = 360.0f / (float)this->nbLeds;
-		float hue = diff;
-		for (int i = 0; i < this->nbLeds; ++i)
-		{
-			hueBuffer[i] = hue;
-			hue += diff;
-		}
+		this->hueBuffer = new FLOAT[this->nbLeds];
 
-
-
+		float coef = 360.0f / (float)this->nbLeds;
+		for (UINT i = 0; i < this->nbLeds; ++i)
+			hueBuffer[i] = i* coef;
 	}
 
-	void Rainbow::update()
+	void Rainbow::Update()
 	{
-		this->p_controller->clear();
+		this->controller->clear();
 
 		Color col;
-		float hue;
+		FLOAT hue;
 
 		for (int i = 0; i < this->nbLeds; ++i)
 		{
@@ -41,10 +35,10 @@ namespace Asemco
 			this->hueBuffer[i] = hue;
 
 			col.fromHue(hue);
-			this->p_controller->setColor(i, col);
+			this->controller->setColorC(i, col);
 		}
 
-		this->p_controller->moderate(1.0f, 0.42f, 0.3f);
-		this->p_controller->send();
+		this->controller->moderate(1.0f, 0.42f, 0.3f);
+		this->controller->send();
 	}
 }

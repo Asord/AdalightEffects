@@ -2,19 +2,18 @@
 
 namespace Asemco
 {
-	Clock::Clock(ArduinoController * controller, UINT8 lightPercent)
+	Clock::Clock(Controller * controller, UINT8 lightPercent)
+		: VirtualTemplate(0x01, controller)
 	{
-		this->init(controller);
-
-		hColor = Color(255, 255, 0)*(lightPercent / 100.0f);
-		mColor = Color(0,   255, 0)*(lightPercent / 100.0f);
-		sColor = Color(255,   0, 0)*(lightPercent / 100.0f);
+		hColor = Color::Yellow * (lightPercent / 100.0f);
+		mColor = Color::Green  * (lightPercent / 100.0f);
+		sColor = Color::Red    * (lightPercent / 100.0f);
 	}
 
-	void Clock::update()
+	void Clock::Update()
 	{
 		this->getClockTime();
-		this->p_controller->clear();
+		this->controller->clear();
 
 		switch (this->updateType)
 		{
@@ -26,8 +25,8 @@ namespace Asemco
 			break;
 		}
 
-		this->p_controller->moderate(1.0f, 0.42f, 0.3f);
-		this->p_controller->send();
+		this->controller->moderate(1.0f, 0.42f, 0.3f);
+		this->controller->send();
 	}
 
 	void Clock::updateBinary()
@@ -89,7 +88,7 @@ namespace Asemco
 	
 	void Clock::setShadeAtPos(UINT8 shade, UINT8 pos)
 	{
-		float hue;
+		FLOAT hue;
 
 		hue = 120.0f / 10.0f * shade;
 		hColor = Color().fromHSV(hue, 1.0f, 1.0f);
@@ -99,7 +98,7 @@ namespace Asemco
 
 	void Clock::setColAtPos(Color& color, UINT8 pos)
 	{
-		this->p_controller->setColor(pos, color);
+		this->controller->setColorC(pos, color);
 	}
 
 

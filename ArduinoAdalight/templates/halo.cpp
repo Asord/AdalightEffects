@@ -8,32 +8,32 @@ namespace Asemco
 		return ((value - oMin) / (oMax - oMin)) * (nMax - nMin) + nMin;
 	}
 
-
-	Halo::Halo(ArduinoController * controller, const Color & color, size_t startPos)
+	Halo::Halo(Controller* controller, const Color & color, size_t startPos)
+		: VirtualTemplate(0x04, controller)
 	{
-		this->init(controller);
 
 		this->effectPos = startPos < saturationSize ? startPos : 0;
 		this->effectColor = color;
 	}
 
-	void Halo::update()
+	void Halo::Update()
 	{
-		this->p_controller->clear();
+		this->controller->clear();
 
 		if (this->effectPos == saturationSize)
 			this->effectPos = 0;
 
-		for (int i = 0; i < this->nbLeds; ++i)
+		FLOAT scale; INT currentPos; Color col;
+		for (int i = 0; i < this->controller->getNbLeds(); ++i)
 		{
-			int currentPos = (this->effectPos + i) % saturationSize;
-			float scale = Scale(effectRange, saturationData[currentPos]);
-			Color col = this->effectColor * scale;
-			p_controller->setColor(i, col);
+			currentPos = (this->effectPos + i) % saturationSize;
+			scale = Scale(effectRange, saturationData[currentPos]);
+			col = this->effectColor * scale;
+			this->controller->setColorC(i, col);
 		}
 
 		this->effectPos++;
 
-		p_controller->send();
+		this->controller->send();
 	}
 }

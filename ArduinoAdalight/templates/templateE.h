@@ -1,26 +1,28 @@
 #pragma once
-#include "abstractTemplate.h"
+#include <VirtualTemplate.h>
 #include "../tools/templateReader.h"
-
 
 namespace Asemco
 {
-	class TemplateE : public AbstractTemplate
+	#define isInstance(Type, ptr) dynamic_cast<Type*>(ptr) != nullptr
+
+	/* TODO: test this template */
+	class TemplateE : public VirtualTemplate
 	{
 	public:
-		int speed;
+		INT speed;
 
 	private:
 		TemplateReader fileData;
 
-		int framePos;
+		UINT framePos;
 
-		char* data;
+		UINT8* data;
 		Color* colors;
 
 	public:
-		TemplateE(ArduinoController*, std::string file);
-		void update();
+		TemplateE(Controller*, std::string file);
+		VOID Update();
 	};
 
 

@@ -1,19 +1,21 @@
 #pragma once
-#include "abstractTemplate.h"
+#include <VirtualTemplate.h>
 
 namespace Asemco
 {
-	class Rainbow :public AbstractTemplate
+	/* TODO: test this template */
+	class Rainbow :public VirtualTemplate
 	{
 	private:
-		float f_step;
-		float f_hue;
-		int n_dir;
+		FLOAT f_step;
+		INT n_dir;
 
-		float* hueBuffer;
+		UINT8 nbLeds;
+
+		FLOAT* hueBuffer;
 
 	public:
-		Rainbow(ArduinoController*, float, int);
-		void update();
+		Rainbow(Controller*, FLOAT, INT);
+		VOID Update();
 	};
 }

@@ -1,37 +1,33 @@
 #pragma once
-#include "abstractTemplate.h"
 #include <time.h>
+#include <VirtualTemplate.h>
 
+/* TODO: test this template */
 namespace Asemco
 {
-	class Clock : public AbstractTemplate
+	class Clock : public VirtualTemplate
 	{
 	private:
 		time_t theTime;
 		struct tm* aTime;
 
-		int hour;
-		int min;
-		int sec;
+		INT hour, min, sec;
+		Color hColor, mColor, sColor;
 
-		Color hColor;
-		Color mColor;
-		Color sColor;
-
-		int updateType = 0;
+		UINT8 updateType = 0;
 
 	public:
-		Clock(ArduinoController* controller, UINT8 lightPercent);
+		Clock(Controller* controller, UINT8 lightPercent);
 
-		void update();
-		void updateBinary();
-		void updateShade();
+		VOID Update();
+		VOID updateBinary();
+		VOID updateShade();
 
-		void getClockTime();
+		VOID getClockTime();
 
 
-		void setShadeAtPos(UINT8 decade, UINT8 pos);
-		void setColAtPos(Color& color, UINT8 pos);
+		VOID setShadeAtPos(UINT8 decade, UINT8 pos);
+		VOID setColAtPos(Color& color, UINT8 pos);
 	};
 
 }

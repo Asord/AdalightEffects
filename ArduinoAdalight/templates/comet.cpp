@@ -1,18 +1,20 @@
 #include "comet.h"
 
+/* TODO: test this template */
 namespace Asemco
 {
-	Comet::Comet(ArduinoController* controller)
+	Comet::Comet(Controller* controller)
+		: VirtualTemplate(0x02, controller)
 	{
-		this->init(controller);
+		this->nbLeds = this->controller->getNbLeds();
 
 		this->step = Step::VANISH;
 		this->switchEffect(); // init to comet effect
 	}
 
-	void Comet::update()
+	void Comet::Update()
 	{
-		this->p_controller->clear();
+		this->controller->clear();
 
 		switch (this->step)
 		{
@@ -27,9 +29,7 @@ namespace Asemco
 			break;
 		}
 
-		this->p_controller->send();
-
-
+		this->controller->send();
 	}
 
 	void Comet::comet()
@@ -37,14 +37,14 @@ namespace Asemco
 		if (this->cDir > 0){
 
 			this->limit = max(this->cPos - this->cSize, 0);
-			for (unsigned short i = this->cPos; i > limit; --i)
-				this->p_controller->setColor(i, this->cColor);
+			for (USHORT i = this->cPos; i > limit; --i)
+				this->controller->setColorC(i, this->cColor);
 
 		}else{
 
 			this->limit = min(this->cPos + this->cSize, this->nbLeds);
-			for (unsigned short i = this->cPos; i < limit; ++i)
-				this->p_controller->setColor(i, this->cColor);
+			for (USHORT i = this->cPos; i < limit; ++i)
+				this->controller->setColorC(i, this->cColor);
 		}
 
 
@@ -92,9 +92,9 @@ namespace Asemco
 		
 		if (this->cDir < 0)
 		{
-			for (unsigned short i = 0; i < this->nbLeds; ++i)
+			for (USHORT i = 0; i < this->nbLeds; ++i)
 			{
-				this->p_controller->setColor(i, this->cColor);
+				this->controller->setColorC(i, this->cColor);
 			}
 		}
 		this->limit--;
@@ -110,7 +110,7 @@ namespace Asemco
 		}
 
 		for (int i = 0; i < this->limit; ++i)
-			this->p_controller->setColor(i, this->cColor);
+			this->controller->setColorC(i, this->cColor);
 
 		this->limit--;
 	}

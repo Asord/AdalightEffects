@@ -2,9 +2,10 @@
 
 namespace Asemco
 {
-	RainbowYipyop::RainbowYipyop(ArduinoController* controller)
+	RainbowYipyop::RainbowYipyop(Controller* controller)
+		: VirtualTemplate(0x07, controller)
 	{
-		this->init(controller);
+		this->color = Color();
 
 		this->f_currentHue = 0.0f;
 		this->f_step = 0.0f;
@@ -13,16 +14,16 @@ namespace Asemco
 
 		this->initEffect();
 
-		this->p_controller->clear();
+		this->controller->clear();
 	}
 
 
 	void RainbowYipyop::initEffect()
 	{
-		float leds = (float)this->nbLeds;
+		FLOAT leds = (FLOAT)this->controller->getNbLeds();
 
-		float hue = this->f_currentHue;
-		float stop;
+		FLOAT hue = this->f_currentHue;
+		FLOAT stop;
 
 		do {
 			stop = (rand() % 36000) / 100.0f;
@@ -41,9 +42,9 @@ namespace Asemco
 	}
 
 
-	void RainbowYipyop::update()
+	void RainbowYipyop::Update()
 	{
-		if (this->n_positionHue == this->nbLeds || this->n_positionHue == -1)
+		if (this->n_positionHue == this->controller->getNbLeds() || this->n_positionHue == -1)
 		{
 			this->initEffect();
 			this->n_directionHue *= -1;
@@ -51,12 +52,12 @@ namespace Asemco
 		else
 		{
 			this->f_currentHue = ufmodf(this->f_currentHue + this->f_step, 360.0f);
-			Color col = Color().fromHSV(this->f_currentHue, 1.0, 1.0);
-			col.coef(1.0f, 0.42f, 0.3f);
-			this->p_controller->setColor(this->n_positionHue, col);
+
+			color.fromHue(this->f_currentHue).coef(1.0f, 0.42f, 0.3f);
+			this->controller->setColorC(this->n_positionHue, color);
 		}
 		this->n_positionHue += this->n_directionHue;
 
-		this->p_controller->send();
+		this->controller->send();
 	}
 }

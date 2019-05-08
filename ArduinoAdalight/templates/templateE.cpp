@@ -2,44 +2,44 @@
 
 namespace Asemco
 {
-	TemplateE::TemplateE(ArduinoController * controller, std::string file): fileData(file)
+	TemplateE::TemplateE(Controller * controller, std::string file)
+		: fileData(file), VirtualTemplate(0x08, controller)
 	{
-		this->init(controller);
-
-		this->speed = (int)(fileData.getSpeed()*1000);
+		this->speed = (INT)(fileData.getSpeed()*1000);
 		this->framePos = 0;
 		this->data = fileData.getLedsTemplate();
 		this->colors = fileData.getColors();
 	}
 
-	void TemplateE::update()
+	VOID TemplateE::Update()
 	{
-		this->p_controller->clear();
+		this->controller->clear();
+
+		Color col;
+		UINT frameLen;
+		PUINT8 frame_ptr;
+		FLOAT coefR, coefG, coefB;
 
 		if (this->framePos >= fileData.getNbFrames())
-		{
 			this->framePos = 0;
-		}
 
-		size_t frameLen = fileData.getFrameLen();
+		frameLen = fileData.getFrameLen();
 
-		char* frame = data + frameLen*this->framePos*sizeof(char);
+		frame_ptr = data + frameLen*this->framePos*sizeof(char);
 
-		if (frameLen > this->nbLeds)
+		if (frameLen > this->controller->getNbLeds())
+			frameLen = this->controller->getNbLeds();
+
+		for (UINT i = 0; i < frameLen; ++i)
 		{
-			frameLen = this->nbLeds;
+			col = colors[frame_ptr[i]];
+			this->controller->setColorC(i, col);
 		}
 
-		for (size_t i = 0; i < frameLen; ++i)
-		{
-			Color col = colors[frame[i]];
-			this->p_controller->setColor(i, col);
-		}
+		fileData.getCoefs(coefR, coefG, coefB);
+		this->controller->moderate(coefR, coefG, coefB);
 
-		float* coefs = fileData.getCoefs();
-		this->p_controller->moderate(coefs[0], coefs[1], coefs[2]);
-
-		this->p_controller->send();
+		this->controller->send();
 		this->framePos += 1;
 	}
 }

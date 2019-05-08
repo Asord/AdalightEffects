@@ -4,6 +4,7 @@
 #include "templates.h"
 #include "tools/argumentsParser.h"
 
+#include <AdalightController.h>
 
 using namespace Asemco;
 
@@ -13,7 +14,7 @@ int main(int argc, char* argv[])
 
 	config c = argvParser(argc, argv);
 
-	ArduinoController controller((char*)c.portName.c_str(), c.n_nbLeds);
+	AdalightController controller((char*)c.portName.c_str(), c.n_nbLeds);
 
 	int baseCounter = c.n_loopCount;
 	int loopCounter = baseCounter;
@@ -27,7 +28,7 @@ int main(int argc, char* argv[])
 	}
 
 	ptrArray effectsArray(6);
-	AbstractTemplate* tpl;
+	VirtualTemplate* tpl;
 
 	if (c.b_doRainbowStatic)
 		effectsArray.append(new RainbowStatic(&controller, c.f_rainbowStaticHueCoef));
@@ -57,7 +58,7 @@ int main(int argc, char* argv[])
 	if (effectsArray.size() == 0)
 		return 0;
 
-	tpl = (AbstractTemplate*)effectsArray[0];
+	tpl = static_cast<VirtualTemplate*>(effectsArray[0]);
 
 	int sleepTime = c.n_sleepms;
 
@@ -74,7 +75,8 @@ int main(int argc, char* argv[])
 				else return 0;
 			}
 
-			tpl = (AbstractTemplate*)effectsArray[effect];
+
+			tpl = static_cast<VirtualTemplate*>(effectsArray[effect]);
 
 			if (isInstance(TemplateE, tpl))
 			{
@@ -87,7 +89,7 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		tpl->update();
+		tpl->Update();
 		Sleep(sleepTime);
 		--loopCounter;
 	}

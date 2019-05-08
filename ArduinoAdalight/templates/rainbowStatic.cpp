@@ -2,27 +2,26 @@
 
 namespace Asemco
 {
-	RainbowStatic::RainbowStatic(ArduinoController* controller, float step)
+	RainbowStatic::RainbowStatic(Controller* controller, FLOAT step)
+		: VirtualTemplate(0x06, controller)
 	{
-		this->init(controller);
-
 		this->f_step = step;
-
 		this->f_hue = 0.0f;
 	}
 
-	void RainbowStatic::update()
+	void RainbowStatic::Update()
 	{
-		this->p_controller->clear();
-
-		for (int i = 0; i < this->nbLeds; ++i)
+		this->controller->clear();
+		Color col;
+		for (int i = 0; i < this->controller->getNbLeds(); ++i)
 		{
-			Color col = Color().fromHSV(this->f_hue, 1.0, 1.0);
-			this->p_controller->setColor(i, col);
+			col.fromHue(this->f_hue);
+			this->controller->setColorC(i, col);
 		}
 
 		this->f_hue = ufmodf(this->f_hue + this->f_step, 360.0f);
-		this->p_controller->moderate(1.0f, 0.42f, 0.3f);
-		this->p_controller->send();
+
+		this->controller->moderate(1.0f, 0.42f, 0.3f);
+		this->controller->send();
 	}
 }

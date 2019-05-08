@@ -1,21 +1,24 @@
 #pragma once
-#include "abstractTemplate.h"
+#include <VirtualTemplate.h>
 
 namespace Asemco
 {
-	class RainbowYipyop :public AbstractTemplate
+	/* TODO: test this template */
+	class RainbowYipyop :public VirtualTemplate
 	{
 	private:
-		float f_currentHue;
-		float f_step;
-		int n_positionHue;
-		int n_directionHue;
+		FLOAT f_currentHue;
+		FLOAT f_step;
+		SHORT n_positionHue;
+		SHORT n_directionHue;
+
+		Color color;
 
 	public:
-		RainbowYipyop(ArduinoController*);
-		void update();
+		RainbowYipyop(Controller*);
+		VOID Update();
 
 	private:
-		void initEffect();
+		VOID initEffect();
 	};
 }

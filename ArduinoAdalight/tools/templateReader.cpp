@@ -12,26 +12,25 @@ Asemco::TemplateReader::TemplateReader(std::string file)
 		myFile.seekg(0, std::ios::beg);
 		myFile.read(signature, 2);
 
-		if (strcmp(signature, this->magic) == 0)
+		if (strcmp(signature, (const char*)this->magic) == 0)
 		{
-			myFile.read(&this->nbColors, 1);
-			myFile.read(&this->nbFrames, 1);
-			myFile.read(&this->frameLen, 1);
-			myFile.read((char*)&this->speed, 4);
-			myFile.read((char*)&this->coefs, 12);
+			readFile(myFile, &this->nbColors, 1);
+			readFile(myFile, &this->nbFrames, 1);
+			readFile(myFile, &this->frameLen, 1);
+			readFile(myFile, &this->speed, 4);
+			readFile(myFile, &this->coefs, 12);
 			
-			colors = new Color[this->nbColors];
+			colors = new Color[this->nbColors]; UINT8 buf[3];
 			for (int i = 0; i < this->nbColors; ++i)
 			{
-				char buf[3];
-				myFile.read(buf, 3);
-				colors[i] = Color((PUINT8)buf);
+				readFile(myFile, buf, 3);
+				colors[i] = Color(buf);
 			}
 
 			this->nbElements = this->nbFrames*this->frameLen;
-			this->ledstemplate = new char[this->nbElements];
+			this->ledstemplate = new UINT8[this->nbElements];
 
-			myFile.read(this->ledstemplate, this->nbElements);
+			readFile(myFile, this->ledstemplate, this->nbElements);
 		}
 		myFile.close();
 	}
@@ -44,42 +43,44 @@ Asemco::TemplateReader::~TemplateReader()
 	delete[this->nbColors] this->colors;
 }
 
-int Asemco::TemplateReader::getNbColors()
+UINT8 Asemco::TemplateReader::getNbColors()const 
 {
 	return (int)this->nbColors;
 }
 
-int Asemco::TemplateReader::getNbFrames()
+UINT8 Asemco::TemplateReader::getNbFrames() const
 {
 	return (int)this->nbFrames;
 }
 
-int Asemco::TemplateReader::getFrameLen()
+UINT8 Asemco::TemplateReader::getFrameLen() const
 {
 	return (int)this->frameLen;
 }
 
-int Asemco::TemplateReader::getNbElements()
+UINT Asemco::TemplateReader::getNbElements() const
 {
 	return this->nbElements;
 }
 
-float Asemco::TemplateReader::getSpeed()
+FLOAT Asemco::TemplateReader::getSpeed() const
 {
 	return this->speed;
 }
 
-float* Asemco::TemplateReader::getCoefs()
+VOID Asemco::TemplateReader::getCoefs(FLOATR coefR, FLOATR coefG, FLOATR coefB) const
 {
-	return this->coefs;
+	coefR = this->coefs[0];
+	coefG = this->coefs[1];
+	coefB = this->coefs[2];
 }
 
-Asemco::Color * Asemco::TemplateReader::getColors()
+Asemco::Color * Asemco::TemplateReader::getColors() const
 {
 	return colors;
 }
 
-char* Asemco::TemplateReader::getLedsTemplate()
+PUINT8 Asemco::TemplateReader::getLedsTemplate() const
 {
 	return this->ledstemplate;
 }

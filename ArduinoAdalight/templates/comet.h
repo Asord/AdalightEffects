@@ -1,35 +1,34 @@
 #pragma once
-#include "abstractTemplate.h"
+#include <VirtualTemplate.h>
 
 namespace Asemco
 {
 	enum Step {COMET, BLINK, VANISH};
 
 
-	class Comet : public AbstractTemplate
+	class Comet : public VirtualTemplate
 	{
 	public:
-
-		unsigned short limit;
-		unsigned short cPos;
-		unsigned short cSize;
-		short cDir;
+		USHORT limit;
+		USHORT cPos;
+		USHORT cSize;
+		SHORT cDir;
 
 		Color cColor;
 		Step step;
 
-	public:
-		Comet(ArduinoController* controller);
+		UINT8 nbLeds;
 
-		void update();
+	public:
+		Comet(Controller* controller);
+		VOID Update();
 
 	private:
-		void comet();
-		void blink();
-		void vanish();
+		VOID comet();
+		VOID blink();
+		VOID vanish();
 
-		void switchEffect();
-
-		void randomColor();
+		VOID switchEffect();
+		VOID randomColor();
 	};
 }
