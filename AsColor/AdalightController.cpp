@@ -14,6 +14,8 @@ namespace Asemco
 		this->setHeader();
 	}
 
+	#pragma warning( push )
+	#pragma warning( disable : 4838) // INT to UINT8 conversion warning
 	VOID AdalightController::setHeader()
 	{
 		UINT8 header[] = {
@@ -25,4 +27,5 @@ namespace Asemco
 
 		memcpy(this->y_buffer, header, 6);
 	}
+	#pragma warning( pop ) 
 }
