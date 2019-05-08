@@ -17,5 +17,7 @@ namespace Asemco
 		};
 
 		virtual VOID Update() = 0;
+
+		UINT getID() { return this->effectID; };
 	};
 }
