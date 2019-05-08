@@ -1,5 +1,5 @@
 #include "extendedTests.h"
-
+#ifdef _DEVELOPPEMENT
 
 namespace Asemco
 {
@@ -80,3 +80,4 @@ namespace Asemco
 
 	}
 }
+#endif

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef _DEVELOPPEMENT
 #define _ALLPUBLIC
 
 #include <iostream>
@@ -46,3 +47,4 @@ namespace Asemco
 	char userInput();
 
 }
+#endif
